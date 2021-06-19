@@ -1,0 +1,47 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "KinematicBody2D",
+"class": "Actor",
+"language": "GDScript",
+"path": "res://src/Actor.gd"
+} ]
+_global_script_class_icons={
+"Actor": ""
+}
+
+[application]
+
+config/name="Wakey"
+run/main_scene="res://src/MainScene.tscn"
+boot_splash/bg_color=Color( 0, 0.0392157, 0.184314, 1 )
+config/icon="res://icon.png"
+
+[debug]
+
+settings/fps/force_fps=60
+settings/stdout/print_fps=true
+
+[display]
+
+window/size/width=800
+window/size/height=1200
+window/size/resizable=false
+window/size/borderless=true
+
+[gui]
+
+theme/use_hidpi=true
+
+[rendering]
+
+environment/default_clear_color=Color( 1, 1, 1, 0 )
+environment/default_environment="res://default_env.tres"
