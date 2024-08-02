@@ -14,6 +14,6 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	
-	bbcode_text = str("[center]","Extinctions Remaining\n", 3-get_parent().massExtinctions,"[/center]")
+	text = str("[center]","Extinctions Remaining\n", 3-get_parent().massExtinctions,"[/center]")
 	
 	pass

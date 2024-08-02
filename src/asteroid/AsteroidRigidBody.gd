@@ -10,9 +10,9 @@ const range_hard = [1200, 1500]
 const range_crazy = [1500, 2000]
 
 func _init():
-	angular_velocity = rand_range(-5, 5)
+	angular_velocity = randf_range(-5, 5)
 	var selected_range = range_moderate
-	linear_velocity = Vector2(0.0, rand_range(selected_range[0], selected_range[1]))
+	linear_velocity = Vector2(0.0, randf_range(selected_range[0], selected_range[1]))
 
 func _process(delta):
 	

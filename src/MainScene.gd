@@ -29,7 +29,7 @@ var spaceRubble = { 3 : oneAstr,
 
 
 func _ready():
-	VisualServer.set_default_clear_color(Color(0,0.03,0.18))
+	RenderingServer.set_default_clear_color(Color(0,0.03,0.18))
 
 	pass
 
@@ -89,9 +89,9 @@ func generateAsteroid(seconds, enforceSecondsRule):
 	randomize()
 	
 	if (ateroidsGenerated  % 2 == 0):
-		randX = rand_range(paddedWidth / -2, 0)
+		randX = randf_range(paddedWidth / -2, 0)
 	else:
-		randX = rand_range(0, paddedWidth / 2)
+		randX = randf_range(0, paddedWidth / 2)
 	pass
 	
 	
@@ -102,8 +102,8 @@ func generateAsteroid(seconds, enforceSecondsRule):
 	
 	
 	var body = newAsteroid.get_node("AsteroidRigidBody")
-	body.connect("asteroid_hit_by_moon", self, "_onAsteroidHitByMoon")
-	body.get_node("VisibilityNotifier2D").connect("asteroid_exit_screen", self, "_onAsteroidExitScreen")
+	body.connect("asteroid_hit_by_moon", Callable(self, "_onAsteroidHitByMoon"))
+	body.get_node("VisibleOnScreenNotifier2D").connect("asteroid_exit_screen", Callable(self, "_onAsteroidExitScreen"))
 
 	
 	ateroidsGenerated = ateroidsGenerated + 1

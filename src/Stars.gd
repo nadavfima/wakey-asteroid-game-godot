@@ -10,10 +10,10 @@ func _ready():
 	set_process(true)
 	for n in range (num_star):
 		#star.append(SetPos())
-		star.append(starNode.instance())
-		star[n].position.x = rand_range(-360.0, 360.0)
-		star[n].position.y = rand_range(0, 1280);
-		star[n].speed = rand_range(3,6)
+		star.append(starNode.instantiate())
+		star[n].position.x = randf_range(-360.0, 360.0)
+		star[n].position.y = randf_range(0, 1280);
+		star[n].speed = randf_range(3,6)
 		add_child(star[n])
 	
 func DrawStar(n):
@@ -44,6 +44,6 @@ func DrawStar(n):
 func _process(delta):
 	for n in range(num_star):
 		DrawStar(n)
-		update()
+		queue_redraw()
 	
 	

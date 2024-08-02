@@ -14,6 +14,6 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	
-	bbcode_text = str("[center]","User Score\n", get_parent().userScore,"[/center]")
+	text = str("[center]","User Score\n", get_parent().userScore,"[/center]")
 	
 	pass

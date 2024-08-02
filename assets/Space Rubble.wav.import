@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/Space Rubble.wav-d8083d55559a0e5671016f144590cb6c.sample"
+type="AudioStreamWAV"
+uid="uid://brfnjljeumqka"
+path="res://.godot/imported/Space Rubble.wav-d8083d55559a0e5671016f144590cb6c.sample"
 
 [deps]
 
 source_file="res://assets/Space Rubble.wav"
-dest_files=[ "res://.import/Space Rubble.wav-d8083d55559a0e5671016f144590cb6c.sample" ]
+dest_files=["res://.godot/imported/Space Rubble.wav-d8083d55559a0e5671016f144590cb6c.sample"]
 
 [params]
 

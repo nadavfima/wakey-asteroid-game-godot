@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
 
 var width = 800;
@@ -10,7 +10,7 @@ func _ready():
 func _process(delta):
 	_updateWakeyPositionAccordingToMouse(delta)
 	
-	for i in get_slide_count():
+	for i in get_slide_collision_count():
 		var collision = get_slide_collision(i)
 		print("Collided with: ", collision.collider.name)
 

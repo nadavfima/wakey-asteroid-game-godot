@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://assets/Asteroids/asteroid_02.png" type="Texture" id=1]
+[ext_resource path="res://assets/Asteroids/asteroid_02.png" type="Texture2D" id=1]
 [ext_resource path="res://src/asteroid/AsteroidRigidBody.gd" type="Script" id=2]
 [ext_resource path="res://src/asteroid/AsteroidNode.gd" type="Script" id=3]
 [ext_resource path="res://src/asteroid/AsteroidNotifier.gd" type="Script" id=4]
@@ -28,13 +28,13 @@ script = ExtResource( 3 )
 position = Vector2( 1, 0 )
 physics_material_override = SubResource( 1 )
 gravity_scale = 0.0
-contacts_reported = 3
+max_contacts_reported = 3
 contact_monitor = true
 linear_damp = 0.0
 angular_damp = 0.0
 script = ExtResource( 2 )
 
-[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="AsteroidRigidBody"]
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="AsteroidRigidBody"]
 position = Vector2( -1, 0 )
 script = ExtResource( 4 )
 
@@ -42,12 +42,12 @@ script = ExtResource( 4 )
 rotation = -1.5708
 shape = SubResource( 2 )
 
-[node name="Asteroid2" type="Sprite" parent="AsteroidRigidBody/CollisionShape2D"]
+[node name="Asteroid2" type="Sprite2D" parent="AsteroidRigidBody/CollisionShape2D"]
 rotation = 1.5708
 scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 1 )
 
-[node name="Viewport" type="Viewport" parent="."]
+[node name="SubViewport" type="SubViewport" parent="."]
 size = Vector2( 500, 500 )
 own_world = true
 world = SubResource( 4 )

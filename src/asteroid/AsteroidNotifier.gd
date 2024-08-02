@@ -1,4 +1,4 @@
-extends VisibilityNotifier2D
+extends VisibleOnScreenNotifier2D
 
 
 # Declare member variables here. Examples:

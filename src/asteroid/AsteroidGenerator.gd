@@ -20,17 +20,17 @@ class AsteroidGenerator:
 		var newAsteroid;
 		match randomAsteroid:
 			1:
-				newAsteroid = Asteroid1.instance()
+				newAsteroid = Asteroid1.instantiate()
 			2:
-				newAsteroid = Asteroid2.instance()
+				newAsteroid = Asteroid2.instantiate()
 			3:
-				newAsteroid = Asteroid3.instance()
+				newAsteroid = Asteroid3.instantiate()
 			4:
-				newAsteroid = Asteroid4.instance()
+				newAsteroid = Asteroid4.instantiate()
 			5:
-				newAsteroid = Asteroid5.instance()
+				newAsteroid = Asteroid5.instantiate()
 			6:
-				newAsteroid = Asteroid6.instance()
+				newAsteroid = Asteroid6.instantiate()
 
 		pass
 		
