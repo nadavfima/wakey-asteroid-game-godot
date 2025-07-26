@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bwd2fsx7s2ugo"]
+[gd_scene load_steps=12 format=3 uid="uid://bwd2fsx7s2ugo"]
 
 [ext_resource type="AudioStream" uid="uid://brfnjljeumqka" path="res://assets/Space Rubble.wav" id="1"]
 [ext_resource type="Script" uid="uid://bhsdbd02msp2j" path="res://src/Player.gd" id="2"]
@@ -8,16 +8,13 @@
 [ext_resource type="Texture2D" uid="uid://cnws6jvg7a7bk" path="res://assets/moon.png" id="5"]
 [ext_resource type="Script" uid="uid://bjjhjfwvl7vef" path="res://src/ExtinctionsLabel.gd" id="6"]
 [ext_resource type="Script" uid="uid://cgsls6iuhmvec" path="res://src/MainScene.gd" id="7"]
-[ext_resource type="FontFile" uid="uid://cb85epyygo0yg" path="res://assets/Fredoka-Bold.ttf" id="7_qg6fr"]
+[ext_resource type="FontFile" uid="uid://cb85epyygo0yg" path="res://assets/Fredoka-Bold.ttf" id="8"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(820, 1224)
 
 [sub_resource type="CircleShape2D" id="2"]
 radius = 116.406
-
-[sub_resource type="LabelSettings" id="LabelSettings_1"]
-font_size = 72
 
 [node name="MainScene" type="Node2D"]
 script = ExtResource("7")
@@ -74,7 +71,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0.0392157, 0.184314, 1)
+color = Color(0.133333, 0.0392157, 0.329412, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TitleScreen"]
 layout_mode = 1
@@ -88,14 +85,16 @@ offset_bottom = 450.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TitleLabel" type="Label" parent="TitleScreen/VBoxContainer"]
+[node name="TitleLabel" type="RichTextLabel" parent="TitleScreen/VBoxContainer"]
 custom_minimum_size = Vector2(0, 250)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("7_qg6fr")
-text = "WAKEY
-MOON
-DEFENDER"
-label_settings = SubResource("LabelSettings_1")
+theme_override_fonts/normal_font = ExtResource("8")
+bbcode_enabled = true
+text = "[font_size=90][color=#FEC15D]WAKEY[/color][/font_size]
+[font_size=110][color=#FFFFF3]MOON[/color][/font_size]
+[font_size=90][color=#FEC15D]PATROL[/color][/font_size]"
+fit_content = true
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -173,7 +172,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0.0392157, 0.184314, 0.9)
+color = Color(0.133333, 0.0392157, 0.329412, 0.9)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="GameOverScreen"]
 layout_mode = 1
