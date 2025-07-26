@@ -49,6 +49,10 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = -854.0
+offset_right = 6.0
+offset_bottom = -854.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -63,15 +67,13 @@ color = Color(0, 0.0392157, 0.184314, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TitleScreen"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
 offset_left = -200.0
-offset_top = -150.0
+offset_top = 50.0
 offset_right = 200.0
-offset_bottom = 150.0
+offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -108,9 +110,9 @@ grow_vertical = 2
 
 [node name="UserScoreLabel" type="RichTextLabel" parent="GameUI"]
 layout_mode = 0
-offset_left = -112.0
+offset_left = 112.0
 offset_top = -932.0
-offset_right = 116.0
+offset_right = 340.0
 offset_bottom = -824.0
 bbcode_enabled = true
 text = "
@@ -123,9 +125,9 @@ script = ExtResource("4")
 [node name="ExtinctionsLabel" type="RichTextLabel" parent="GameUI"]
 layout_mode = 0
 offset_left = -254.0
-offset_top = 164.0
+offset_top = -932.0
 offset_right = 254.0
-offset_bottom = 238.0
+offset_bottom = -824.0
 bbcode_enabled = true
 text = "
 Extinctions Remaining
@@ -154,15 +156,13 @@ color = Color(0, 0.0392157, 0.184314, 0.9)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="GameOverScreen"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
 offset_left = -200.0
-offset_top = -200.0
+offset_top = 50.0
 offset_right = 200.0
-offset_bottom = 200.0
+offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
 
