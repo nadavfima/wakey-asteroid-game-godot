@@ -2,13 +2,18 @@ extends CharacterBody2D
 
 
 var width = 800;
+var main_scene: Node2D
 
 func _ready():
 	set_process(true)
+	# Get reference to the main scene
+	main_scene = get_parent().get_parent()
 	pass
 	
 func _process(delta):
-	_updateWakeyPositionAccordingToMouse(delta)
+	# Only update position if game is in PLAYING state
+	if main_scene.current_state == main_scene.GameState.PLAYING:
+		_updateWakeyPositionAccordingToMouse(delta)
 	
 	for i in get_slide_collision_count():
 		var collision = get_slide_collision(i)
