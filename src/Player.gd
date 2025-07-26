@@ -3,6 +3,7 @@ extends CharacterBody2D
 
 var width = 800;
 var main_scene: Node2D
+var is_animating = false
 
 func _ready():
 	set_process(true)
@@ -39,8 +40,9 @@ func _updateWakeyPositionAccordingToMouse(delta):
 		
 		#translate(Vector2(motion, y))
 		position.x = newX
-		# Only update Y position during gameplay, not during animations
-		if main_scene.current_state == main_scene.GameState.PLAYING:
+		# Only update Y position during gameplay and when not animating
+		if main_scene.current_state == main_scene.GameState.PLAYING and not is_animating:
+			# Add the parabolic offset to the base game position
 			position.y = main_scene.MOON_GAME_Y + y
 	else :
 		if (newX > limit):

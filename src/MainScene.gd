@@ -23,10 +23,10 @@ var moon_tween: Tween
 var earth_tween: Tween
 
 # Position constants
-const MOON_TITLE_Y = -600
+const MOON_TITLE_Y = -599
 const MOON_GAME_Y = 0
 const EARTH_TITLE_Y = 204
-const EARTH_GAME_Y = 537  # 204 + 333
+const EARTH_GAME_Y = 333 
 const ANIMATION_DURATION = 1.0
 
 #onready var Asteroid = preload("res://src/asteroid/AsteroidScene.tscn")
@@ -54,6 +54,11 @@ func _ready():
 	# Initialize tweens
 	moon_tween = create_tween()
 	earth_tween = create_tween()
+	
+	# Test animation system
+	print("Initial positions:")
+	print("Moon: ", $Area2D/Player.position)
+	print("Earth: ", $Area2D/earth.position)
 	
 	show_title_screen()
 	pass
@@ -129,8 +134,7 @@ func start_game():
 	# Animate moon and earth to game positions
 	animate_to_game_positions()
 	
-	# Start audio after animation
-	await moon_tween.finished
+	# Start audio after animation completes
 	$AudioPlayer.play()
 	playing = true
 
@@ -149,35 +153,71 @@ func show_game_over_screen():
 	$GameOverScreen/VBoxContainer/ScoreLabel.text = "Final Score: " + str(userScore)
 	$GameOverScreen/VBoxContainer/ExtinctionsLabel.text = "Extinctions: " + str(massExtinctions)
 
+func test_animation():
+	print("Testing animation system...")
+	
+	# Create a simple test tween
+	var test_tween = create_tween()
+	test_tween.set_ease(Tween.EASE_OUT)
+	test_tween.set_trans(Tween.TRANS_CUBIC)
+	
+	# Animate moon up and down
+	test_tween.tween_property($Area2D/Player, "position:y", MOON_GAME_Y, 0.5)
+	test_tween.tween_property($Area2D/Player, "position:y", MOON_TITLE_Y, 0.5)
+	
+	print("Test animation started")
+
 func animate_to_game_positions():
-	# Animate moon to game position
-	moon_tween.kill()
+	# Signal to Player that animation is starting
+	$Area2D/Player.is_animating = true
+	
+	print("Starting animation to game positions...")
+	print("Current moon position: ", $Area2D/Player.position)
+	print("Current earth position: ", $Area2D/earth.position)
+	
+	# Create new tweens
 	moon_tween = create_tween()
 	moon_tween.set_ease(Tween.EASE_OUT)
 	moon_tween.set_trans(Tween.TRANS_CUBIC)
+	print("Animating moon from Y=", $Area2D/Player.position.y, " to Y=", MOON_GAME_Y)
 	moon_tween.tween_property($Area2D/Player, "position:y", MOON_GAME_Y, ANIMATION_DURATION)
 	
-	# Animate earth to game position
-	earth_tween.kill()
 	earth_tween = create_tween()
 	earth_tween.set_ease(Tween.EASE_OUT)
 	earth_tween.set_trans(Tween.TRANS_CUBIC)
+	print("Animating earth from Y=", $Area2D/earth.position.y, " to Y=", EARTH_GAME_Y)
 	earth_tween.tween_property($Area2D/earth, "position:y", EARTH_GAME_Y, ANIMATION_DURATION)
+	
+	# Wait for animation to complete
+	await moon_tween.finished
+	print("Animation to game positions completed")
+	$Area2D/Player.is_animating = false
 
 func animate_to_title_positions():
-	# Animate moon back to title position
-	moon_tween.kill()
+	# Signal to Player that animation is starting
+	$Area2D/Player.is_animating = true
+	
+	print("Starting animation to title positions...")
+	print("Current moon position: ", $Area2D/Player.position)
+	print("Current earth position: ", $Area2D/earth.position)
+	
+	# Create new tweens
 	moon_tween = create_tween()
 	moon_tween.set_ease(Tween.EASE_OUT)
 	moon_tween.set_trans(Tween.TRANS_CUBIC)
+	print("Animating moon from Y=", $Area2D/Player.position.y, " to Y=", MOON_TITLE_Y)
 	moon_tween.tween_property($Area2D/Player, "position:y", MOON_TITLE_Y, ANIMATION_DURATION)
 	
-	# Animate earth back to title position
-	earth_tween.kill()
 	earth_tween = create_tween()
 	earth_tween.set_ease(Tween.EASE_OUT)
 	earth_tween.set_trans(Tween.TRANS_CUBIC)
+	print("Animating earth from Y=", $Area2D/earth.position.y, " to Y=", EARTH_TITLE_Y)
 	earth_tween.tween_property($Area2D/earth, "position:y", EARTH_TITLE_Y, ANIMATION_DURATION)
+	
+	# Wait for animation to complete
+	await moon_tween.finished
+	print("Animation to title positions completed")
+	$Area2D/Player.is_animating = false
 
 func generateAsteroid(seconds, enforceSecondsRule):
 	
