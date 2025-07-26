@@ -27,13 +27,14 @@ window/size/viewport_width=800
 window/size/viewport_height=1200
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+window/handheld/orientation=1
 window/size/minimum_viewport_width=400
 window/size/minimum_viewport_height=600
 
 [gui]
 
-theme/use_hidpi=true
 theme/custom_font="res://assets/Fredoka-Bold.ttf"
+theme/use_hidpi=true
 theme/custom_font_size=48
 
 [rendering]
