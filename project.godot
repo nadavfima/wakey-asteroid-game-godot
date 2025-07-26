@@ -25,12 +25,10 @@ settings/fps/force_fps=60
 
 window/size/viewport_width=800
 window/size/viewport_height=1200
-window/size/resizable=true
-window/size/borderless=false
-window/size/minimum_viewport_width=400
-window/size/minimum_viewport_height=600
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+window/size/minimum_viewport_width=400
+window/size/minimum_viewport_height=600
 
 [gui]
 

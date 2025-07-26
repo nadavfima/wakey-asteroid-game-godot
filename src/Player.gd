@@ -39,7 +39,9 @@ func _updateWakeyPositionAccordingToMouse(delta):
 		
 		#translate(Vector2(motion, y))
 		position.x = newX
-		position.y = y
+		# Only update Y position during gameplay, not during animations
+		if main_scene.current_state == main_scene.GameState.PLAYING:
+			position.y = main_scene.MOON_GAME_Y + y
 	else :
 		if (newX > limit):
 			position.x = limit;

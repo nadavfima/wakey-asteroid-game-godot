@@ -18,6 +18,17 @@ var userScore = 0
 var massExtinctions = 0
 var maxExtinctions = 3
 
+# Animation tweens
+var moon_tween: Tween
+var earth_tween: Tween
+
+# Position constants
+const MOON_TITLE_Y = -600
+const MOON_GAME_Y = 0
+const EARTH_TITLE_Y = 204
+const EARTH_GAME_Y = 537  # 204 + 333
+const ANIMATION_DURATION = 1.0
+
 #onready var Asteroid = preload("res://src/asteroid/AsteroidScene.tscn")
 
 const oneAstr = [3,6,9]
@@ -39,6 +50,10 @@ func _ready():
 	$TitleScreen/VBoxContainer/StartButton.pressed.connect(_on_start_button_pressed)
 	$GameOverScreen/VBoxContainer/RestartButton.pressed.connect(_on_restart_button_pressed)
 	$GameOverScreen/VBoxContainer/MainMenuButton.pressed.connect(_on_main_menu_button_pressed)
+	
+	# Initialize tweens
+	moon_tween = create_tween()
+	earth_tween = create_tween()
 	
 	show_title_screen()
 	pass
@@ -89,6 +104,9 @@ func show_title_screen():
 	$AudioPlayer.stop()
 	playing = false
 	
+	# Animate moon and earth back to title positions
+	animate_to_title_positions()
+	
 	# Reset game state
 	userScore = 0
 	massExtinctions = 0
@@ -107,6 +125,12 @@ func start_game():
 	$TitleScreen.visible = false
 	$GameOverScreen.visible = false
 	$GameUI.visible = true
+	
+	# Animate moon and earth to game positions
+	animate_to_game_positions()
+	
+	# Start audio after animation
+	await moon_tween.finished
 	$AudioPlayer.play()
 	playing = true
 
@@ -118,9 +142,42 @@ func show_game_over_screen():
 	$AudioPlayer.stop()
 	playing = false
 	
+	# Animate moon and earth back to title positions
+	animate_to_title_positions()
+	
 	# Update game over screen with final scores
 	$GameOverScreen/VBoxContainer/ScoreLabel.text = "Final Score: " + str(userScore)
 	$GameOverScreen/VBoxContainer/ExtinctionsLabel.text = "Extinctions: " + str(massExtinctions)
+
+func animate_to_game_positions():
+	# Animate moon to game position
+	moon_tween.kill()
+	moon_tween = create_tween()
+	moon_tween.set_ease(Tween.EASE_OUT)
+	moon_tween.set_trans(Tween.TRANS_CUBIC)
+	moon_tween.tween_property($Area2D/Player, "position:y", MOON_GAME_Y, ANIMATION_DURATION)
+	
+	# Animate earth to game position
+	earth_tween.kill()
+	earth_tween = create_tween()
+	earth_tween.set_ease(Tween.EASE_OUT)
+	earth_tween.set_trans(Tween.TRANS_CUBIC)
+	earth_tween.tween_property($Area2D/earth, "position:y", EARTH_GAME_Y, ANIMATION_DURATION)
+
+func animate_to_title_positions():
+	# Animate moon back to title position
+	moon_tween.kill()
+	moon_tween = create_tween()
+	moon_tween.set_ease(Tween.EASE_OUT)
+	moon_tween.set_trans(Tween.TRANS_CUBIC)
+	moon_tween.tween_property($Area2D/Player, "position:y", MOON_TITLE_Y, ANIMATION_DURATION)
+	
+	# Animate earth back to title position
+	earth_tween.kill()
+	earth_tween = create_tween()
+	earth_tween.set_ease(Tween.EASE_OUT)
+	earth_tween.set_trans(Tween.TRANS_CUBIC)
+	earth_tween.tween_property($Area2D/earth, "position:y", EARTH_TITLE_Y, ANIMATION_DURATION)
 
 func generateAsteroid(seconds, enforceSecondsRule):
 	

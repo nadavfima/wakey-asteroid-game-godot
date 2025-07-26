@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://bwd2fsx7s2ugo"]
+[gd_scene load_steps=11 format=3 uid="uid://bwd2fsx7s2ugo"]
 
 [ext_resource type="AudioStream" uid="uid://brfnjljeumqka" path="res://assets/Space Rubble.wav" id="1"]
 [ext_resource type="Script" path="res://src/Player.gd" id="2"]
 [ext_resource type="Script" path="res://src/Stars.gd" id="3"]
+[ext_resource type="Texture2D" uid="uid://qqajakt0hh5b" path="res://assets/earth.png" id="3_3ja64"]
 [ext_resource type="Script" path="res://src/UserScoreLabel.gd" id="4"]
 [ext_resource type="Texture2D" uid="uid://cnws6jvg7a7bk" path="res://assets/moon.png" id="5"]
 [ext_resource type="Script" path="res://src/ExtinctionsLabel.gd" id="6"]
@@ -27,7 +28,13 @@ script = ExtResource("3")
 position = Vector2(-1, -352)
 shape = SubResource("1")
 
+[node name="earth" type="Sprite2D" parent="Area2D"]
+position = Vector2(-0.199707, 204)
+scale = Vector2(0.600001, 0.600001)
+texture = ExtResource("3_3ja64")
+
 [node name="Player" type="CharacterBody2D" parent="Area2D"]
+position = Vector2(-1, -599)
 script = ExtResource("2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D/Player"]
@@ -50,9 +57,9 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 6.0
-offset_top = -854.0
+offset_top = -421.0
 offset_right = 6.0
-offset_bottom = -854.0
+offset_bottom = -421.0
 grow_horizontal = 2
 grow_vertical = 2
 
