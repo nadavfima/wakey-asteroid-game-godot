@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bwd2fsx7s2ugo"]
+[gd_scene load_steps=13 format=3 uid="uid://bwd2fsx7s2ugo"]
 
 [ext_resource type="AudioStream" uid="uid://brfnjljeumqka" path="res://assets/Space Rubble.wav" id="1"]
 [ext_resource type="Script" uid="uid://bhsdbd02msp2j" path="res://src/Player.gd" id="2"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://bjjhjfwvl7vef" path="res://src/ExtinctionsLabel.gd" id="6"]
 [ext_resource type="Script" uid="uid://cgsls6iuhmvec" path="res://src/MainScene.gd" id="7"]
 [ext_resource type="FontFile" uid="uid://cb85epyygo0yg" path="res://assets/Fredoka-Bold.ttf" id="8"]
+[ext_resource type="Texture2D" uid="uid://bsqrblxwbk355" path="res://assets/rocket.png" id="8_tlhjj"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(820, 1224)
@@ -90,13 +91,17 @@ custom_minimum_size = Vector2(0, 250)
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("8")
 bbcode_enabled = true
-text = "[font_size=90][color=#FEC15D]WAKEY[/color][/font_size]
-[font_size=110][color=#FFFFF3]MOON[/color][/font_size]
-[font_size=90][color=#FEC15D]PATROL[/color][/font_size]"
+text = "[font_size=100][color=#FEC15D]WAKEY[/color][/font_size]
+[font_size=130][color=#FFFFF3]MOON[/color][/font_size]
+[font_size=100][color=#FEC15D]PATROL[/color][/font_size]"
 fit_content = true
 scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Rocket" type="Sprite2D" parent="TitleScreen/Control/VBoxContainer"]
+position = Vector2(82, 126)
+texture = ExtResource("8_tlhjj")
 
 [node name="InstructionsLabel" type="Label" parent="TitleScreen/Control"]
 custom_minimum_size = Vector2(0, 80)
@@ -106,12 +111,14 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -366.0
-offset_top = 200.0
-offset_right = 334.0
-offset_bottom = 280.0
+offset_left = -367.0
+offset_top = 106.0
+offset_right = 333.0
+offset_bottom = 186.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_fonts/font = ExtResource("8")
+theme_override_font_sizes/font_size = 24
 text = "Move the moon to destroy asteroids!
 Avoid letting 3 asteroids pass by."
 horizontal_alignment = 1
@@ -232,3 +239,11 @@ text = "PLAY AGAIN"
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 text = "MAIN MENU"
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.133333, 0.0392157, 0.329412, 1)
