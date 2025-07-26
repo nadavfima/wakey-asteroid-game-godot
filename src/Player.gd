@@ -25,7 +25,11 @@ func _process(delta):
 
 func _updateWakeyPositionAccordingToMouse(delta):
 	
-	var motion = (get_global_mouse_position().x - position.x) * 0.2
+	# Convert global mouse position to local position relative to the Area2D
+	var global_mouse_pos = get_global_mouse_position()
+	var local_mouse_pos = get_parent().to_local(global_mouse_pos)
+	
+	var motion = (local_mouse_pos.x - position.x) * 0.2
 	var moonSize = 220
 	var limit = width/2 - moonSize/2
 	var newX = position.x + motion

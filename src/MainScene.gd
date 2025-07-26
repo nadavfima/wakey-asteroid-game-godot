@@ -47,7 +47,7 @@ func _ready():
 	RenderingServer.set_default_clear_color(Color(0,0.03,0.18))
 	
 	# Connect button signals
-	$TitleScreen/StartButton.pressed.connect(_on_start_button_pressed)
+	$TitleScreen/Control/StartButton.pressed.connect(_on_start_button_pressed)
 	$GameOverScreen/VBoxContainer/RestartButton.pressed.connect(_on_restart_button_pressed)
 	$GameOverScreen/VBoxContainer/MainMenuButton.pressed.connect(_on_main_menu_button_pressed)
 	

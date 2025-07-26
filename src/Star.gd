@@ -12,4 +12,3 @@ func _draw():
 #	color = Color(randf(), randf(), randf())
 	color = Color(1,1,1, randf())
 	draw_circle(Vector2(0, 0), 2, color)
-
