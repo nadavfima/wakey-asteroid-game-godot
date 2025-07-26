@@ -109,6 +109,9 @@ func show_title_screen():
 	$AudioPlayer.stop()
 	playing = false
 	
+	# Ensure stars are stopped
+	$Stars.end_game()
+	
 	# Animate moon and earth back to title positions
 	animate_to_title_positions()
 	
@@ -131,6 +134,9 @@ func start_game():
 	$GameOverScreen.visible = false
 	$GameUI.visible = true
 	
+	# Start star acceleration
+	$Stars.start_game()
+	
 	# Animate moon and earth to game positions
 	animate_to_game_positions()
 	
@@ -145,6 +151,9 @@ func show_game_over_screen():
 	$GameUI.visible = false
 	$AudioPlayer.stop()
 	playing = false
+	
+	# Start star deceleration
+	$Stars.end_game()
 	
 	# Animate moon and earth back to title positions
 	animate_to_title_positions()
