@@ -44,7 +44,7 @@ var spaceRubble = { 3 : oneAstr,
 					 }
 
 func _ready():
-	RenderingServer.set_default_clear_color(Color(0,0.03,0.18))
+	RenderingServer.set_default_clear_color(Color(0.133, 0.039, 0.329))
 	
 	# Connect button signals
 	$TitleScreen/Control/StartButton.pressed.connect(_on_start_button_pressed)
