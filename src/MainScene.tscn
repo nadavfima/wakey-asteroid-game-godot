@@ -29,7 +29,7 @@ position = Vector2(-1, -352)
 shape = SubResource("1")
 
 [node name="earth" type="Sprite2D" parent="Area2D"]
-position = Vector2(-0.199707, 204)
+position = Vector2(-2, 39)
 scale = Vector2(0.600001, 0.600001)
 texture = ExtResource("3_3ja64")
 
@@ -57,9 +57,9 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 6.0
-offset_top = -421.0
+offset_top = -919.0
 offset_right = 6.0
-offset_bottom = -421.0
+offset_bottom = -919.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -77,34 +77,42 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -200.0
-offset_top = 50.0
-offset_right = 200.0
-offset_bottom = 250.0
+offset_left = -350.0
+offset_top = 30.0
+offset_right = 350.0
+offset_bottom = 450.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="TitleLabel" type="Label" parent="TitleScreen/VBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
+custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
-text = "WAKEY ASTEROID DESTROYER"
+text = "WAKEY
+MOON
+DEFENDER"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="StartButton" type="Button" parent="TitleScreen/VBoxContainer"]
+[node name="InstructionsLabel" type="Label" parent="TitleScreen"]
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
-text = "START GAME"
-
-[node name="Spacer2" type="Control" parent="TitleScreen/VBoxContainer"]
-custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
-
-[node name="InstructionsLabel" type="Label" parent="TitleScreen/VBoxContainer"]
-layout_mode = 2
+offset_left = -366.0
+offset_top = 690.0
+offset_right = 334.0
+offset_bottom = 770.0
 text = "Move the moon to destroy asteroids!
 Avoid letting 3 asteroids pass by."
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="StartButton" type="Button" parent="TitleScreen"]
+layout_mode = 0
+offset_left = -202.0
+offset_top = 986.0
+offset_right = -1.99997
+offset_bottom = 1046.0
+scale = Vector2(1.98554, 1.75987)
+text = "START GAME"
 
 [node name="GameUI" type="Control" parent="."]
 visible = false
@@ -166,38 +174,40 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -200.0
+offset_left = -300.0
 offset_top = 50.0
-offset_right = 200.0
-offset_bottom = 250.0
+offset_right = 300.0
+offset_bottom = 400.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="GameOverLabel" type="Label" parent="GameOverScreen/VBoxContainer"]
-custom_minimum_size = Vector2(0, 30)
+custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 text = "GAME OVER"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ScoreLabel" type="Label" parent="GameOverScreen/VBoxContainer"]
-custom_minimum_size = Vector2(0, 30)
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 text = "Final Score: 0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ExtinctionsLabel" type="Label" parent="GameOverScreen/VBoxContainer"]
-custom_minimum_size = Vector2(0, 30)
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 text = "Extinctions: 0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="RestartButton" type="Button" parent="GameOverScreen/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 text = "PLAY AGAIN"
 
 [node name="MainMenuButton" type="Button" parent="GameOverScreen/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 text = "MAIN MENU"

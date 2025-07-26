@@ -25,7 +25,7 @@ var earth_tween: Tween
 # Position constants
 const MOON_TITLE_Y = -599
 const MOON_GAME_Y = 0
-const EARTH_TITLE_Y = 204
+const EARTH_TITLE_Y = 39
 const EARTH_GAME_Y = 333 
 const ANIMATION_DURATION = 1.0
 
@@ -47,7 +47,7 @@ func _ready():
 	RenderingServer.set_default_clear_color(Color(0,0.03,0.18))
 	
 	# Connect button signals
-	$TitleScreen/VBoxContainer/StartButton.pressed.connect(_on_start_button_pressed)
+	$TitleScreen/StartButton.pressed.connect(_on_start_button_pressed)
 	$GameOverScreen/VBoxContainer/RestartButton.pressed.connect(_on_restart_button_pressed)
 	$GameOverScreen/VBoxContainer/MainMenuButton.pressed.connect(_on_main_menu_button_pressed)
 	
