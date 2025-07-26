@@ -3,6 +3,10 @@ extends Node2D
 const BPM = 139
 const BARS = 16
 
+# Game states
+enum GameState {TITLE, PLAYING, GAME_OVER}
+var current_state = GameState.TITLE
+
 var ateroidsGenerated = 0
 var lastBeat = 0
 var playing = false
@@ -12,6 +16,7 @@ const COMPENSATE_HZ = 60.0
 var lastAsteroidGeneratedOnSecond = 0
 var userScore = 0
 var massExtinctions = 0
+var maxExtinctions = 3
 
 #onready var Asteroid = preload("res://src/asteroid/AsteroidScene.tscn")
 
@@ -27,13 +32,21 @@ var spaceRubble = { 3 : oneAstr,
 					
 					 }
 
-
 func _ready():
 	RenderingServer.set_default_clear_color(Color(0,0.03,0.18))
-
+	
+	# Connect button signals
+	$TitleScreen/VBoxContainer/StartButton.pressed.connect(_on_start_button_pressed)
+	$GameOverScreen/VBoxContainer/RestartButton.pressed.connect(_on_restart_button_pressed)
+	$GameOverScreen/VBoxContainer/MainMenuButton.pressed.connect(_on_main_menu_button_pressed)
+	
+	show_title_screen()
 	pass
 
 func _process(_delta):
+	if current_state != GameState.PLAYING:
+		return
+		
 	if !playing or !$AudioPlayer.playing:
 		$AudioPlayer.play()
 		playing = true
@@ -67,6 +80,47 @@ func _process(_delta):
 			
 	
 	pass
+
+func show_title_screen():
+	current_state = GameState.TITLE
+	$TitleScreen.visible = true
+	$GameOverScreen.visible = false
+	$GameUI.visible = false
+	$AudioPlayer.stop()
+	playing = false
+	
+	# Reset game state
+	userScore = 0
+	massExtinctions = 0
+	ateroidsGenerated = 0
+	lastBeat = 0
+	lastAsteroidGeneratedOnSecond = 0
+	
+	# Clear any existing asteroids
+	for child in $Area2D/CollisionShape2D.get_children():
+		if child.has_method("queue_free"):
+			$Area2D/CollisionShape2D.remove_child(child)
+			child.queue_free()
+
+func start_game():
+	current_state = GameState.PLAYING
+	$TitleScreen.visible = false
+	$GameOverScreen.visible = false
+	$GameUI.visible = true
+	$AudioPlayer.play()
+	playing = true
+
+func show_game_over_screen():
+	current_state = GameState.GAME_OVER
+	$TitleScreen.visible = false
+	$GameOverScreen.visible = true
+	$GameUI.visible = false
+	$AudioPlayer.stop()
+	playing = false
+	
+	# Update game over screen with final scores
+	$GameOverScreen/VBoxContainer/ScoreLabel.text = "Final Score: " + str(userScore)
+	$GameOverScreen/VBoxContainer/ExtinctionsLabel.text = "Extinctions: " + str(massExtinctions)
 
 func generateAsteroid(seconds, enforceSecondsRule):
 	
@@ -131,7 +185,7 @@ func _onAsteroidExitScreen(asteroid):
 func removeAsteroid(asteroid, hit):
 	
 	print("removing asteroid ",asteroid)
-	remove_child(asteroid)
+	$Area2D/CollisionShape2D.remove_child(asteroid)
 	asteroid.queue_free()
 	
 	
@@ -143,5 +197,18 @@ func removeAsteroid(asteroid, hit):
 	#print("user score is: ", userScore)
 	#print("mass extinctions: ", massExtinctions)
 	
+	# Check for game over condition
+	if massExtinctions >= maxExtinctions:
+		show_game_over_screen()
+	
 	
 	pass
+
+func _on_start_button_pressed():
+	start_game()
+
+func _on_restart_button_pressed():
+	start_game()
+
+func _on_main_menu_button_pressed():
+	show_title_screen()
