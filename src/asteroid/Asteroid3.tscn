@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://sa45c8ypm1jt"]
 
 [ext_resource type="Texture2D" uid="uid://di5appx70dga0" path="res://assets/Asteroids/asteroid_03.png" id="1"]
-[ext_resource type="Script" path="res://src/asteroid/AsteroidRigidBody.gd" id="2"]
-[ext_resource type="Script" path="res://src/asteroid/AsteroidNode.gd" id="3"]
-[ext_resource type="Script" path="res://src/asteroid/AsteroidNotifier.gd" id="4"]
+[ext_resource type="Script" uid="uid://cujqj4nam18h5" path="res://src/asteroid/AsteroidRigidBody.gd" id="2"]
+[ext_resource type="Script" uid="uid://bme7xftebly4a" path="res://src/asteroid/AsteroidNode.gd" id="3"]
+[ext_resource type="Script" uid="uid://dvoxsrinoe2uc" path="res://src/asteroid/AsteroidNotifier.gd" id="4"]
 
 [sub_resource type="PhysicsMaterial" id="1"]
 bounce = 1.0
@@ -19,8 +19,8 @@ script = ExtResource("3")
 position = Vector2(1, 0)
 physics_material_override = SubResource("1")
 gravity_scale = 0.0
-max_contacts_reported = 3
 contact_monitor = true
+max_contacts_reported = 3
 script = ExtResource("2")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="AsteroidRigidBody"]

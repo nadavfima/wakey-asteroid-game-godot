@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Wakey"
 run/main_scene="res://src/MainScene.tscn"
-config/features=PackedStringArray("4.2")
+config/features=PackedStringArray("4.4")
 boot_splash/bg_color=Color(0, 0.0392157, 0.184314, 1)
 config/icon="res://icon.png"
 
