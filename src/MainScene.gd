@@ -23,7 +23,7 @@ var moon_tween: Tween
 var earth_tween: Tween
 
 # Position constants
-const MOON_TITLE_Y = -599
+const MOON_TITLE_Y = -400
 const MOON_GAME_Y = 0
 const EARTH_TITLE_Y = 39
 const EARTH_GAME_Y = 333 

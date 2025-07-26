@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bwd2fsx7s2ugo"]
+[gd_scene load_steps=13 format=3 uid="uid://bwd2fsx7s2ugo"]
 
 [ext_resource type="AudioStream" uid="uid://brfnjljeumqka" path="res://assets/Space Rubble.wav" id="1"]
 [ext_resource type="Script" uid="uid://bhsdbd02msp2j" path="res://src/Player.gd" id="2"]
@@ -8,12 +8,16 @@
 [ext_resource type="Texture2D" uid="uid://cnws6jvg7a7bk" path="res://assets/moon.png" id="5"]
 [ext_resource type="Script" uid="uid://bjjhjfwvl7vef" path="res://src/ExtinctionsLabel.gd" id="6"]
 [ext_resource type="Script" uid="uid://cgsls6iuhmvec" path="res://src/MainScene.gd" id="7"]
+[ext_resource type="FontFile" uid="uid://cb85epyygo0yg" path="res://assets/Fredoka-Bold.ttf" id="7_qg6fr"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(820, 1224)
 
 [sub_resource type="CircleShape2D" id="2"]
 radius = 116.406
+
+[sub_resource type="LabelSettings" id="LabelSettings_1"]
+font_size = 72
 
 [node name="MainScene" type="Node2D"]
 script = ExtResource("7")
@@ -34,7 +38,7 @@ scale = Vector2(0.600001, 0.600001)
 texture = ExtResource("3_3ja64")
 
 [node name="Player" type="CharacterBody2D" parent="Area2D"]
-position = Vector2(-1, -599)
+position = Vector2(-1, -402)
 script = ExtResource("2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D/Player"]
@@ -85,11 +89,13 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="TitleLabel" type="Label" parent="TitleScreen/VBoxContainer"]
-custom_minimum_size = Vector2(0, 150)
+custom_minimum_size = Vector2(0, 250)
 layout_mode = 2
+theme_override_fonts/font = ExtResource("7_qg6fr")
 text = "WAKEY
 MOON
 DEFENDER"
+label_settings = SubResource("LabelSettings_1")
 horizontal_alignment = 1
 vertical_alignment = 1
 
