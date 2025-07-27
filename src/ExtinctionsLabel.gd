@@ -25,14 +25,9 @@ func _process(delta):
 	var main_scene = get_parent().get_parent()
 	var remaining = 3
 	
-	# Debug: Print the main scene and its methods
-	print("Main scene: ", main_scene)
-	print("Main scene has get_mass_extinctions method: ", main_scene.has_method("get_mass_extinctions"))
-	
 	# Access the massExtinctions variable directly from MainScene
 	if main_scene.has_method("get_mass_extinctions"):
 		var extinctions = main_scene.get_mass_extinctions()
-		print("Got extinctions via method: ", extinctions)
 		remaining = 3 - extinctions
 	else:
 		# Try to access the variable directly
@@ -42,7 +37,6 @@ func _process(delta):
 			extinctions = 0
 		remaining = 3 - extinctions
 	
-	print("Remaining extinctions: ", remaining)
 	
 	# Update the Earth icons display
 	if extinctions_display:
@@ -55,7 +49,7 @@ func _process(delta):
 		"[/center]"
 	)
 	
-	print("Setting text to: ", display_text)
+
 	text = display_text
 	# Force the RichTextLabel to update
 	queue_redraw()
