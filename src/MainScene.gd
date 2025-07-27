@@ -321,7 +321,7 @@ func show_score_popup(text: String, score: int = 0, color: Color = Color.WHITE, 
 		asteroid_popups[asteroid_id] = popup
 	
 	# Show the popup (this will handle its own cleanup)
-	popup.show_popup(text, score, color, 2.0, asteroid_position)
+	popup.show_popup(text, score, color, 1.0, asteroid_position)
 	
 	# Set up automatic cleanup
 	popup.tree_exited.connect(func(): 
