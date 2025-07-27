@@ -114,10 +114,13 @@ func create_single_sparkle():
 	sparkle.add_theme_font_size_override("font_size", 24)
 	sparkle.modulate = Color(1.0, 0.757, 0.0, 1.0)  # Bright yellow
 	
-	# Position sparkle randomly around the score
+	# Calculate the center of the score display
+	var score_center = global_position + size / 2
+	
+	# Position sparkle randomly around the score center
 	var angle = randf() * 2 * PI
 	var distance = randf_range(30, 80)
-	var start_pos = global_position + Vector2(cos(angle) * distance, sin(angle) * distance)
+	var start_pos = score_center + Vector2(cos(angle) * distance, sin(angle) * distance)
 	sparkle.position = start_pos
 	
 	# Add to the scene
@@ -154,8 +157,9 @@ func create_floating_score_text(score_increase: int):
 		floating_label.add_theme_font_override("normal_font", font)
 		floating_label.add_theme_font_size_override("normal_font_size", 48)
 	
-	# Position it at the score label position
-	floating_label.position = global_position + Vector2(0, -50)
+	# Position it at the center of the score label
+	var score_center = global_position + size / 2
+	floating_label.position = score_center + Vector2(0, -50)
 	
 	# Choose color based on score increase - more variety like the stars
 	var star_colors = [
