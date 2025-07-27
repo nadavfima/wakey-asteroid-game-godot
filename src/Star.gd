@@ -119,11 +119,8 @@ func reset_star():
 	alpha_double = 0.0
 	multiplier_factor = 1
 	
-	# Only reposition if the star is actually moving (game is active)
-	# This prevents accumulation at the top during menu state
-	if get_parent() and get_parent().global_speed_multiplier > 0.1:
-		position.x = randf_range(-360.0, 360.0)
-		position.y = randf_range(-100.0, 0.0)  # Start above screen
+	# Don't reposition here - let Stars.gd handle repositioning when star goes off screen
+	# This prevents stars from resetting position mid-movement
 
 func get_alpha_int() -> int:
 	if star_type == "twinkling":
