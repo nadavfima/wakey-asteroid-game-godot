@@ -20,13 +20,9 @@ func _ready():
 	cx = width / 2.0
 	cy = height / 2.0
 	
-	print("Stars: Initial dimensions - Width: ", width, ", Height: ", height)
-	
 	# Connect to viewport size changed signal
 	var viewport = get_viewport()
-	print("Stars: Connecting to viewport size_changed signal...")
 	viewport.size_changed.connect(_on_viewport_size_changed)
-	print("Stars: Signal connected successfully")
 	
 	set_process(true)
 	# Start with 100 stars for menu
@@ -37,12 +33,8 @@ func _on_viewport_size_changed():
 	var new_width = get_viewport_rect().size.x
 	var new_height = get_viewport_rect().size.y
 	
-	print("Stars: New dimensions - Width: ", new_width, ", Height: ", new_height)
-	print("Stars: Old dimensions - Width: ", width, ", Height: ", height)
-	
 	# Only update if dimensions actually changed
 	if new_width != width or new_height != height:
-		print("Stars: Dimensions changed, updating...")
 		var old_width = width  # Store old width before updating
 		var old_height = height  # Store old height before updating
 		
@@ -53,12 +45,8 @@ func _on_viewport_size_changed():
 		
 		# Redistribute existing stars to fit the new screen size
 		redistribute_stars_for_resize(old_width, old_height)
-		print("Stars: Redistribution complete")
-	else:
-		print("Stars: Dimensions unchanged, skipping update")
 
 func create_stars(count: int):
-	print("Stars: Creating ", count, " stars...")
 	for n in range(count):
 		var new_star = starNode.instantiate()
 		# Better initial distribution across the entire screen
@@ -67,20 +55,9 @@ func create_stars(count: int):
 		new_star.speed = randf_range(3,6)
 		add_child(new_star)
 		star.append(new_star)
-		
-		# Log first few stars to understand positioning
-		if n < 5:
-			print("Stars: Created star ", n, " at position (", new_star.position.x, ", ", new_star.position.y, ")")
-	
-	print("Stars: Created ", count, " stars with width range: ", -width/2.0, " to ", width/2.0)
 
 func redistribute_stars_for_resize(old_width: float, old_height: float):
 	# Redistribute stars to fit the new screen dimensions
-	print("Stars: Starting redistribution for resize...")
-	print("Stars: Old bounds - X: ", -old_width/2.0, " to ", old_width/2.0)
-	print("Stars: New bounds - X: ", -width/2.0, " to ", width/2.0)
-	var stars_moved = 0
-	
 	for n in range(star.size()):
 		if star[n] != null:
 			var original_x = star[n].position.x
@@ -98,10 +75,6 @@ func redistribute_stars_for_resize(old_width: float, old_height: float):
 			if abs(new_x - original_x) > 1.0 or abs(new_y - original_y) > 1.0:
 				star[n].position.x = new_x
 				star[n].position.y = new_y
-				stars_moved += 1
-				print("Stars: Star ", n, " moved from (", original_x, ", ", original_y, ") to (", new_x, ", ", new_y, ")")
-	
-	print("Stars: Redistributed ", stars_moved, " stars for new screen size")
 
 func start_game():
 	# Start accelerating stars to full speed
