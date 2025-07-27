@@ -427,8 +427,13 @@ func _onAsteroidHitByAsteroid(asteroid):
 	# Add screen shake for asteroid collision
 	_add_screen_shake(8.0, 0.3)
 	
+	# Convert world position to screen coordinates for popup
+	var viewport_size = get_viewport_rect().size
+	var camera_pos = $Camera2D.global_position + $Camera2D.offset
+	var popup_position = asteroid.global_position - camera_pos + viewport_size / 2
+	
 	# Show popup for chain reaction
-	show_score_popup("CHAIN REACTION!", 5, Color(0xFF, 0x6B, 0x6B), asteroid.global_position, asteroid_id)
+	show_score_popup("CHAIN REACTION!", 5, Color(0xFF, 0x6B, 0x6B), popup_position, asteroid_id)
 	
 	# Add significant angular velocity boost for asteroid-asteroid collisions
 	var angular_boost = randf_range(20.0, 35.0)
@@ -457,8 +462,13 @@ func _onAsteroidHitEarth(asteroid):
 	# Spawn explosion at the collision point
 	spawn_explosion(asteroid.global_position)
 	
+	# Convert world position to screen coordinates for popup
+	var viewport_size = get_viewport_rect().size
+	var camera_pos = $Camera2D.global_position + $Camera2D.offset
+	var popup_position = asteroid.global_position - camera_pos + viewport_size / 2
+	
 	# Show popup for mass extinction
-	show_score_popup("MASS EXTINCTION!", 0, Color(1.0, 0.439, 0.263), asteroid.global_position, asteroid_id)
+	show_score_popup("MASS EXTINCTION!", 0, Color(1.0, 0.439, 0.263), popup_position, asteroid_id)
 	
 	# Remove the asteroid after a delay to show the impact
 	await get_tree().create_timer(0.5).timeout
@@ -495,8 +505,13 @@ func _onAsteroidCrazySpin(asteroid, points):
 	var asteroid_node = asteroid.get_parent()
 	var asteroid_id = asteroid_node.asteroid_id
 	
+	# Convert world position to screen coordinates for popup
+	var viewport_size = get_viewport_rect().size
+	var camera_pos = $Camera2D.global_position + $Camera2D.offset
+	var popup_position = asteroid.global_position - camera_pos + viewport_size / 2
+	
 	# Show popup for crazy spin (will update existing popup if one exists for this asteroid)
-	show_score_popup("CRAZY SPIN!", points, Color(0x4E, 0xCA, 0xE8), asteroid.global_position, asteroid_id)
+	show_score_popup("CRAZY SPIN!", points, Color(0x4E, 0xCA, 0xE8), popup_position, asteroid_id)
 	pass
 
 func _onAsteroidMoonHitComplete(asteroid):

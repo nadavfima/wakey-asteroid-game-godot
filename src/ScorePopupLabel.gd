@@ -79,7 +79,10 @@ func show_popup(text: String, score: int = 0, color: Color = Color.WHITE, durati
 	
 	# Position at asteroid location if provided, otherwise use random position
 	if asteroid_position != Vector2.ZERO:
-		position = asteroid_position
+		# Center the popup on the asteroid position
+		# The popup has a custom_minimum_size of 400x50, so we offset by half to center it
+		var popup_size = Vector2(400, 50)  # From the .tscn file
+		position = asteroid_position - popup_size / 2
 	else:
 		# Fallback to random positioning
 		var viewport_size = get_viewport_rect().size
