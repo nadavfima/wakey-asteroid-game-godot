@@ -21,11 +21,16 @@ var maxExtinctions = 3
 # Animation tweens
 var moon_tween: Tween = null
 var earth_tween: Tween = null
+var screen_shake_tween: Tween = null
 
 # Popup label system
 var popup_label_scene = preload("res://src/ScorePopupLabel.tscn")
 var active_popups = []
 var asteroid_popups = {}  # Dictionary to track popup labels by asteroid ID
+
+# Screen shake system
+var original_camera_position: Vector2
+var is_shaking = false
 
 # Position constants
 const MOON_TITLE_Y = -400
@@ -50,6 +55,9 @@ var spaceRubble = { 3 : oneAstr,
 
 func _ready():
 	RenderingServer.set_default_clear_color(Color(0.133, 0.039, 0.329))
+	
+	# Store original camera position for screen shake
+	original_camera_position = $Camera2D.position
 	
 	# Connect button signals
 	$TitleScreen/Control/StartButton.pressed.connect(_on_start_button_pressed)
@@ -345,6 +353,9 @@ func _onAsteroidHitByMoon(asteroid):
 	# Give immediate score for the hit
 	userScore += 5
 	
+	# Add screen shake for moon collision
+	_add_screen_shake(5.0, 0.2)
+	
 	# Don't Show popup for moon hit
 	# var asteroid_node = asteroid.get_parent()
 	# var asteroid_id = asteroid_node.asteroid_id
@@ -366,6 +377,9 @@ func _onAsteroidHitByAsteroid(asteroid):
 	# Get the asteroid ID from the parent node
 	var asteroid_node = asteroid.get_parent()
 	var asteroid_id = asteroid_node.asteroid_id
+	
+	# Add screen shake for asteroid collision
+	_add_screen_shake(8.0, 0.3)
 	
 	# Show popup for chain reaction
 	show_score_popup("CHAIN REACTION!", 5, Color(0xFF, 0x6B, 0x6B), asteroid.global_position, asteroid_id)
@@ -390,6 +404,9 @@ func _onAsteroidHitEarth(asteroid):
 	
 	# Get the asteroid ID from the parent node
 	var asteroid_id = asteroid_node.asteroid_id
+	
+	# Add dramatic screen shake for earth collision
+	_add_screen_shake(15.0, 0.5)
 	
 	# Show popup for mass extinction
 	show_score_popup("MASS EXTINCTION!", 0, Color(0xFF, 0x00, 0x00), asteroid.global_position, asteroid_id)
@@ -485,3 +502,35 @@ func get_user_score():
 
 func get_mass_extinctions():
 	return massExtinctions
+
+func _add_screen_shake(intensity: float, duration: float):
+	print("Screen shake called with intensity: ", intensity, " duration: ", duration)
+	
+	# Stop any existing screen shake
+	if screen_shake_tween:
+		screen_shake_tween.kill()
+	
+	screen_shake_tween = create_tween()
+	is_shaking = true
+	
+	print("Original camera position: ", original_camera_position)
+	
+	# Create a series of random shakes
+	var shake_count = int(duration * 20)  # 20 shakes per second
+	print("Creating ", shake_count, " shakes")
+	
+	for i in range(shake_count):
+		var shake_offset = Vector2(
+			randf_range(-intensity, intensity),
+			randf_range(-intensity, intensity)
+		)
+		var target_position = original_camera_position + shake_offset
+		print("Shake ", i, ": offset=", shake_offset, " target=", target_position)
+		screen_shake_tween.tween_property($Camera2D, "position", target_position, duration / shake_count)
+	
+	# Return to original position
+	screen_shake_tween.tween_property($Camera2D, "position", original_camera_position, 0.1)
+	screen_shake_tween.tween_callback(func(): 
+		is_shaking = false
+		print("Screen shake finished")
+	)
