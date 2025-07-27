@@ -84,9 +84,9 @@ func trigger_score_animations(score_increase: int):
 	score_tween.tween_property(self, "scale", original_scale * 1.3, 0.1)
 	score_tween.tween_property(self, "scale", original_scale, 0.2).set_delay(0.1)
 	
-	# Color flash animation
+	# Color flash animation - using game's star colors
 	color_tween.set_parallel(true)
-	color_tween.tween_property(self, "modulate", Color(1.5, 1.5, 0.5, 1.0), 0.1)
+	color_tween.tween_property(self, "modulate", Color(1.0, 0.757, 0.0, 1.0), 0.1)  # Bright yellow like stars
 	color_tween.tween_property(self, "modulate", original_color, 0.3).set_delay(0.1)
 	
 	# Create floating score text for larger increases
@@ -108,7 +108,27 @@ func create_floating_score_text(score_increase: int):
 	
 	# Position it at the score label position
 	floating_label.position = global_position + Vector2(0, -50)
-	floating_label.modulate = Color(1.0, 1.0, 0.5, 1.0)
+	
+	# Choose color based on score increase - more variety like the stars
+	var star_colors = [
+		Color(1.0, 0.757, 0.0),    # Yellow like game's star_color_3
+		Color(0.145, 0.678, 1.0),  # Blue like game's star_color_2
+		Color(1.0, 0.220, 0.0),    # Orange like game's star_color_4
+		Color.WHITE                 # White like game's star_color_1
+	]
+	
+	# Use different colors for different score ranges
+	var color_index = 0
+	if score_increase >= 25:
+		color_index = 3  # White for big scores
+	elif score_increase >= 15:
+		color_index = 2  # Orange for medium-high scores
+	elif score_increase >= 10:
+		color_index = 1  # Blue for medium scores
+	else:
+		color_index = 0  # Yellow for smaller scores
+	
+	floating_label.modulate = star_colors[color_index]
 	
 	# Add to the scene
 	get_parent().add_child(floating_label)
