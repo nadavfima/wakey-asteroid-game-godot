@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bwd2fsx7s2ugo"]
+[gd_scene load_steps=17 format=3 uid="uid://bwd2fsx7s2ugo"]
 
 [ext_resource type="AudioStream" uid="uid://brfnjljeumqka" path="res://assets/Space Rubble.wav" id="1"]
 [ext_resource type="Script" uid="uid://bhsdbd02msp2j" path="res://src/Player.gd" id="2"]
@@ -10,12 +10,20 @@
 [ext_resource type="Script" uid="uid://cgsls6iuhmvec" path="res://src/MainScene.gd" id="7"]
 [ext_resource type="FontFile" uid="uid://cb85epyygo0yg" path="res://assets/Fredoka-Bold.ttf" id="8"]
 [ext_resource type="Texture2D" uid="uid://bsqrblxwbk355" path="res://assets/rocket.png" id="8_tlhjj"]
+[ext_resource type="Texture2D" uid="uid://cbc2y2yptah02" path="res://assets/button.png" id="9"]
+[ext_resource type="Texture2D" uid="uid://da2fb5s0o5b2x" path="res://assets/button_pressed.png" id="10"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(820, 1224)
 
 [sub_resource type="CircleShape2D" id="2"]
 radius = 116.406
+
+[sub_resource type="StyleBoxTexture" id="3"]
+texture = ExtResource("9")
+
+[sub_resource type="StyleBoxTexture" id="4"]
+texture = ExtResource("10")
 
 [node name="MainScene" type="Node2D"]
 script = ExtResource("7")
@@ -131,13 +139,20 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -372.0
-offset_top = 354.0
-offset_right = 32.0
-offset_bottom = 414.0
+offset_left = -250.0
+offset_top = 400.0
+offset_right = 250.0
+offset_bottom = 530.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(1.78194, 1.75469)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("8")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/hover = SubResource("3")
+theme_override_styles/pressed = SubResource("4")
+theme_override_styles/normal = SubResource("3")
 text = "START GAME"
 
 [node name="GameUI" type="Control" parent="."]
