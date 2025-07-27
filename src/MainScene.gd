@@ -37,9 +37,9 @@ var is_shaking = false
 
 # Position constants
 const MOON_TITLE_Y = -400
-const MOON_GAME_Y = 0
-const EARTH_TITLE_Y = 39
-const EARTH_GAME_Y = 333 
+const MOON_GAME_Y = -100
+const EARTH_TITLE_Y = 200
+const EARTH_GAME_Y = 400 
 const ANIMATION_DURATION = 1.0
 
 #onready var Asteroid = preload("res://src/asteroid/AsteroidScene.tscn")

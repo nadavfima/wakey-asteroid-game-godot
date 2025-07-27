@@ -3,7 +3,7 @@
 [ext_resource type="AudioStream" uid="uid://brfnjljeumqka" path="res://assets/Space Rubble.wav" id="1"]
 [ext_resource type="Script" uid="uid://bhsdbd02msp2j" path="res://src/Player.gd" id="2"]
 [ext_resource type="Script" uid="uid://c0r0mcd7spnoc" path="res://src/Stars.gd" id="3"]
-[ext_resource type="Texture2D" uid="uid://qqajakt0hh5b" path="res://assets/earth.png" id="3_3ja64"]
+[ext_resource type="Texture2D" uid="uid://dmrrjegxr1epe" path="res://assets/earth.png" id="3_3ja64"]
 [ext_resource type="Script" uid="uid://8jug2fw5gcqf" path="res://src/UserScoreLabel.gd" id="4"]
 [ext_resource type="Texture2D" uid="uid://cnws6jvg7a7bk" path="res://assets/moon.png" id="5"]
 [ext_resource type="Script" uid="uid://bjjhjfwvl7vef" path="res://src/ExtinctionsLabel.gd" id="6"]
@@ -18,7 +18,7 @@
 size = Vector2(820, 1224)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jrltp"]
-radius = 174.003
+radius = 262.242
 
 [sub_resource type="CircleShape2D" id="2"]
 radius = 116.406
@@ -44,13 +44,14 @@ position = Vector2(-1, -352)
 shape = SubResource("1")
 
 [node name="earth" type="StaticBody2D" parent="Area2D"]
-position = Vector2(-2, 39)
+position = Vector2(-2, 102)
 
 [node name="EarthSprite" type="Sprite2D" parent="Area2D/earth"]
-scale = Vector2(0.600001, 0.600001)
+scale = Vector2(0.8, 0.8)
 texture = ExtResource("3_3ja64")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D/earth"]
+scale = Vector2(1.1326, 1.1326)
 shape = SubResource("CircleShape2D_jrltp")
 
 [node name="Player" type="CharacterBody2D" parent="Area2D"]
