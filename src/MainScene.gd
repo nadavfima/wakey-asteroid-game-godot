@@ -276,6 +276,7 @@ func generateAsteroid(seconds, enforceSecondsRule):
 	var body = newAsteroid.get_node("AsteroidRigidBody")
 	body.connect("asteroid_hit_by_moon", Callable(self, "_onAsteroidHitByMoon"))
 	body.connect("asteroid_hit_by_asteroid", Callable(self, "_onAsteroidHitByAsteroid"))
+	body.connect("asteroid_hit_earth", Callable(self, "_onAsteroidHitEarth"))
 	body.get_node("VisibleOnScreenNotifier2D").connect("asteroid_exit_screen", Callable(self, "_onAsteroidExitScreen"))
 
 	
@@ -304,6 +305,15 @@ func _onAsteroidHitByAsteroid(asteroid):
 	# Give immediate score for asteroid-asteroid collision
 	userScore += 5
 	pass
+
+func _onAsteroidHitEarth(asteroid):
+	print("asteroid hit earth")
+	asteroid.get_parent().onHitEarth()
+	
+	# Update extinctions count immediately when Earth is hit
+	massExtinctions += 1
+	
+	pass
 	
 func _onAsteroidExitScreen(asteroid):
 	print("exit screen")
@@ -322,16 +332,14 @@ func removeAsteroid(asteroid, hit):
 	if (asteroid.wasHit):
 		# Bonus score when asteroid is removed, based on number of hits
 		userScore += (10 * asteroid.hitCount)
-	else:
-		massExtinctions += 1
-		
+	
 	#print("user score is: ", userScore)
 	#print("mass extinctions: ", massExtinctions)
 	
-	# Check for game over condition
+
+	# Check for game over condition immediately
 	if massExtinctions >= maxExtinctions:
 		show_game_over_screen()
-	
 	
 	pass
 

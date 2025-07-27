@@ -4,6 +4,7 @@ extends RigidBody2D
 
 signal asteroid_hit_by_moon
 signal asteroid_hit_by_asteroid
+signal asteroid_hit_earth
 
 const range_easy = [600, 900]
 const range_moderate = [900, 1200]
@@ -25,6 +26,9 @@ func _process(delta):
 		# If we hit another asteroid
 		elif body.has_method("onHit"):
 			emit_signal("asteroid_hit_by_asteroid", get_node("."))
+		# If we hit Earth
+		elif body.name == "earth":
+			emit_signal("asteroid_hit_earth", get_node("."))
 	
 	pass
 pass
