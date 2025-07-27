@@ -308,15 +308,28 @@ func _onAsteroidHitByAsteroid(asteroid):
 
 func _onAsteroidHitEarth(asteroid):
 	print("asteroid hit earth")
-	asteroid.get_parent().onHitEarth()
+	# The asteroid parameter is the RigidBody2D, so we need to get the parent Node2D
+	var asteroid_node = asteroid.get_parent()
+	asteroid_node.onHitEarth()
+	
+	# Make the asteroid crash into Earth (stop physics and movement)
+	asteroid.crash_into_earth()
 	
 	# Update extinctions count immediately when Earth is hit
 	massExtinctions += 1
+	
+	# Remove the asteroid after a delay to show the impact
+	await get_tree().create_timer(0.5).timeout
+	removeAsteroid(asteroid_node, false)
 	
 	pass
 	
 func _onAsteroidExitScreen(asteroid):
 	print("exit screen")
+	
+	# Don't remove asteroids that have already hit Earth (they'll be removed separately)
+	if asteroid.hitEarth:
+		return
 	
 	removeAsteroid(asteroid, false)
 	pass
@@ -325,6 +338,12 @@ func _onAsteroidExitScreen(asteroid):
 func removeAsteroid(asteroid, hit):
 	
 	print("removing asteroid ",asteroid)
+	
+	# If the asteroid hit Earth, add a small delay to make the impact feel more dramatic
+	if asteroid.hitEarth:
+		# Wait a short moment to show the impact
+		await get_tree().create_timer(0.3).timeout
+	
 	$Area2D/CollisionShape2D.remove_child(asteroid)
 	asteroid.queue_free()
 	

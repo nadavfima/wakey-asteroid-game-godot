@@ -31,4 +31,28 @@ func _process(delta):
 			emit_signal("asteroid_hit_earth", get_node("."))
 	
 	pass
-pass
+
+# Function to handle Earth collision physics
+func crash_into_earth():
+	# Stop all movement
+	linear_velocity = Vector2.ZERO
+	angular_velocity = 0
+	
+	# Disable physics simulation to prevent bouncing
+	freeze = true
+	
+	# Optional visual effect: slightly scale down the asteroid to show impact
+	var collision_shape = get_node("CollisionShape2D")
+	if collision_shape:
+		# Find the first Sprite2D child (each asteroid has a different name like Asteroid1, Asteroid2, etc.)
+		for child in collision_shape.get_children():
+			if child is Sprite2D:
+				var tween = create_tween()
+				tween.tween_property(child, "scale", Vector2(0.8, 0.8), 0.2)
+				break
+	
+	# Optionally, you can also disable collision detection
+	# collision_layer = 0
+	# collision_mask = 0
+	
+	pass
