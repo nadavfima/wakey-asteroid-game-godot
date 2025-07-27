@@ -63,6 +63,7 @@ func _process(delta):
 	# Check if score increased and trigger animations
 	if score > previous_score:
 		var score_increase = score - previous_score
+		print("Score increased by ", score_increase, " (from ", previous_score, " to ", score, ")")
 		update_streak(score_increase)
 		trigger_score_animations(score_increase)
 		previous_score = score
@@ -221,3 +222,9 @@ func create_floating_score_text(score_increase: int):
 	
 	# Remove the floating label after animation
 	float_tween.tween_callback(floating_label.queue_free).set_delay(1.0)
+
+# Public method to be called directly when score changes
+func on_score_changed(score_increase: int):
+	print("UserScoreLabel.on_score_changed called with increase: ", score_increase)
+	update_streak(score_increase)
+	trigger_score_animations(score_increase)

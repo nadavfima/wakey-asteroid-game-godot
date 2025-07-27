@@ -367,14 +367,17 @@ func _onAsteroidHitByMoon(asteroid):
 	print("hit")
 	var asteroid_node = asteroid.get_parent()
 	
-	# Check if asteroid was already hit by moon to prevent duplicate processing
-	if asteroid_node.hitByMoon:
-		return
-	
+	# The asteroid has already been marked as hit by moon in AsteroidRigidBody
+	# but we still need to call onHit() to track hit count for bonus points
 	asteroid_node.onHit()
 	
 	# Give immediate score for the hit
 	userScore += 5
+	print("Moon hit! Score updated to: ", userScore)
+	
+	# Notify the UserScoreLabel directly about the score change
+	if $GameUI/UserScoreLabel:
+		$GameUI/UserScoreLabel.on_score_changed(5)
 	
 	# Add screen shake for moon collision
 	_add_screen_shake(5.0, 0.2)
@@ -397,6 +400,10 @@ func _onAsteroidHitByAsteroid(asteroid):
 	
 	# Give immediate score for asteroid-asteroid collision
 	userScore += 5
+	
+	# Notify the UserScoreLabel directly about the score change
+	if $GameUI/UserScoreLabel:
+		$GameUI/UserScoreLabel.on_score_changed(5)
 	
 	# Get the asteroid ID from the parent node
 	var asteroid_node = asteroid.get_parent()
@@ -464,6 +471,10 @@ func _onAsteroidCrazySpin(asteroid, points):
 	print("Asteroid crazy spin! Awarding ", points, " points")
 	userScore += points
 	
+	# Notify the UserScoreLabel directly about the score change
+	if $GameUI/UserScoreLabel:
+		$GameUI/UserScoreLabel.on_score_changed(points)
+	
 	# Get the asteroid ID from the parent node
 	var asteroid_node = asteroid.get_parent()
 	var asteroid_id = asteroid_node.asteroid_id
@@ -506,6 +517,10 @@ func removeAsteroid(asteroid, hit):
 		# Bonus score when asteroid is removed, based on number of hits
 		var bonus_points = 10 * asteroid.hitCount
 		userScore += bonus_points
+		
+		# Notify the UserScoreLabel directly about the score change
+		if $GameUI/UserScoreLabel:
+			$GameUI/UserScoreLabel.on_score_changed(bonus_points)
 		
 		# Don't Show popup for destruction bonus
 		# var asteroid_id = asteroid.asteroid_id
