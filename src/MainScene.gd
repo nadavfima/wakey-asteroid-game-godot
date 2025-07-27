@@ -149,6 +149,22 @@ func start_game():
 	$GameOverScreen.visible = false
 	$GameUI.visible = true
 	
+	# Reset game state
+	userScore = 0
+	massExtinctions = 0
+	ateroidsGenerated = 0
+	lastBeat = 0
+	lastAsteroidGeneratedOnSecond = 0
+	
+	# Clear any existing asteroids
+	for child in $Area2D/CollisionShape2D.get_children():
+		if child.has_method("queue_free"):
+			$Area2D/CollisionShape2D.remove_child(child)
+			child.queue_free()
+	
+	# Clear all popup labels
+	clear_all_popups()
+	
 	# Start star acceleration
 	$Stars.start_game()
 	
