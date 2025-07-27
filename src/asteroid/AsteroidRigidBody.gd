@@ -15,8 +15,9 @@ const range_crazy = [1500, 2000]
 # Rotation tracking variables
 const CRAZY_SPIN_THRESHOLD = 20.0  # Angular velocity threshold for "crazy spin"
 const SPIN_SCORE_INTERVAL = 5      # Points awarded per rotation when spinning crazily (integer)
-var last_spin_score_time = 0.0
 var is_spinning_crazily = false
+var rotation_since_crazy_spin = 0.0  # Track total rotation since entering crazy spin
+var last_awarded_rotation = 0.0     # Track the last rotation where we awarded points
 
 func _init():
 	angular_velocity = randf_range(-5, 5)
@@ -64,12 +65,22 @@ func _check_crazy_spin(delta):
 			is_spinning_crazily = true
 			print("Asteroid entered crazy spin mode! Angular velocity: ", angular_velocity)
 			_add_crazy_spin_visual_effect()
+			# Reset rotation tracking when entering crazy spin
+			rotation_since_crazy_spin = 0.0
+			last_awarded_rotation = 0.0
 		
-		# Award points periodically while spinning crazily
-		last_spin_score_time += delta
-		if last_spin_score_time >= 0.5:  # Award points every 0.5 seconds while spinning
-			emit_signal("asteroid_crazy_spin", get_node("."), SPIN_SCORE_INTERVAL)
-			last_spin_score_time = 0.0
+		# Track rotation since entering crazy spin mode
+		rotation_since_crazy_spin += abs(angular_velocity) * delta
+		
+		# Award points for every 360 degrees (2π radians) of rotation
+		var rotations_completed = rotation_since_crazy_spin / (2 * PI)
+		var rotations_since_last_award = rotations_completed - last_awarded_rotation
+		
+		if rotations_since_last_award >= 1.0:  # Award points for each complete rotation
+			var points_to_award = int(rotations_since_last_award) * SPIN_SCORE_INTERVAL
+			emit_signal("asteroid_crazy_spin", get_node("."), points_to_award)
+			last_awarded_rotation = rotations_completed
+			print("Awarded ", points_to_award, " points for ", int(rotations_since_last_award), " complete rotation(s)")
 	else:
 		if is_spinning_crazily:
 			is_spinning_crazily = false
