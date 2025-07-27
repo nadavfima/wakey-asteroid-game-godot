@@ -277,6 +277,7 @@ func generateAsteroid(seconds, enforceSecondsRule):
 	body.connect("asteroid_hit_by_moon", Callable(self, "_onAsteroidHitByMoon"))
 	body.connect("asteroid_hit_by_asteroid", Callable(self, "_onAsteroidHitByAsteroid"))
 	body.connect("asteroid_hit_earth", Callable(self, "_onAsteroidHitEarth"))
+	body.connect("asteroid_crazy_spin", Callable(self, "_onAsteroidCrazySpin"))
 	body.get_node("VisibleOnScreenNotifier2D").connect("asteroid_exit_screen", Callable(self, "_onAsteroidExitScreen"))
 
 	
@@ -296,6 +297,11 @@ func _onAsteroidHitByMoon(asteroid):
 	
 	# Give immediate score for the hit
 	userScore += 2
+	
+	# Add angular velocity boost to potentially trigger crazy spin
+	var angular_boost = randf_range(15.0, 25.0)
+	asteroid.angular_velocity += angular_boost * (1 if randf() > 0.5 else -1)  # Random direction
+	print("Added angular boost: ", angular_boost, " to asteroid")
 	pass
 
 func _onAsteroidHitByAsteroid(asteroid):
@@ -304,6 +310,11 @@ func _onAsteroidHitByAsteroid(asteroid):
 	
 	# Give immediate score for asteroid-asteroid collision
 	userScore += 5
+	
+	# Add significant angular velocity boost for asteroid-asteroid collisions
+	var angular_boost = randf_range(20.0, 35.0)
+	asteroid.angular_velocity += angular_boost * (1 if randf() > 0.5 else -1)  # Random direction
+	print("Asteroid collision! Added angular boost: ", angular_boost, " to asteroid")
 	pass
 
 func _onAsteroidHitEarth(asteroid):
@@ -332,6 +343,11 @@ func _onAsteroidExitScreen(asteroid):
 		return
 	
 	removeAsteroid(asteroid, false)
+	pass
+
+func _onAsteroidCrazySpin(asteroid, points):
+	print("Asteroid crazy spin! Awarding ", points, " points")
+	userScore += points
 	pass
 	
 
