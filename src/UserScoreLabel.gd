@@ -145,7 +145,7 @@ func get_streak_color() -> Color:
 
 func create_sparkles(score_increase: int):
 	# Create sparkles around the score display
-	var sparkle_count = min(score_increase * 2, 12)  # More sparkles for bigger scores, max 12
+	var sparkle_count = min(score_increase/2, score_increase*2)  # More sparkles for bigger scores, max 12
 	
 	for i in range(sparkle_count):
 		create_single_sparkle()
