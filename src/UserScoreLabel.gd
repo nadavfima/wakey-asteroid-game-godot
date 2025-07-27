@@ -10,7 +10,7 @@ var original_color: Color
 # Streak tracking variables
 var streak_score = 0
 var last_score_time = 0.0
-var streak_timeout = 1.0  # Reset streak after 2 seconds of no scoring
+var streak_timeout = 0.5  # Reset streak after 2 seconds of no scoring
 
 # Sparkle variables
 var sparkle_scene: PackedScene
