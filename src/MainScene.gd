@@ -403,6 +403,11 @@ func _onAsteroidHitEarth(asteroid):
 func _onAsteroidExitScreen(asteroid):
 	print("exit screen")
 	
+	# Check if asteroid is still valid before accessing its properties
+	if not is_instance_valid(asteroid):
+		print("Asteroid is no longer valid, skipping exit screen handling")
+		return
+	
 	# Don't remove asteroids that have already hit Earth (they'll be removed separately)
 	if asteroid.hitEarth:
 		return
@@ -427,10 +432,20 @@ func removeAsteroid(asteroid, hit):
 	
 	print("removing asteroid ",asteroid)
 	
+	# Check if asteroid is still valid before accessing its properties
+	if not is_instance_valid(asteroid):
+		print("Asteroid is no longer valid, skipping removal")
+		return
+	
 	# If the asteroid hit Earth, add a small delay to make the impact feel more dramatic
 	if asteroid.hitEarth:
 		# Wait a short moment to show the impact
 		await get_tree().create_timer(0.3).timeout
+	
+	# Check again after the delay in case the asteroid was freed during the delay
+	if not is_instance_valid(asteroid):
+		print("Asteroid was freed during delay, skipping removal")
+		return
 	
 	$Area2D/CollisionShape2D.remove_child(asteroid)
 	asteroid.queue_free()
