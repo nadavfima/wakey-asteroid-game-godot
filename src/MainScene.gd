@@ -499,6 +499,21 @@ func removeAsteroid(asteroid, hit):
 		print("Asteroid is no longer valid, skipping removal")
 		return
 	
+	# Update score BEFORE removing the asteroid (so we can access its properties)
+	if (asteroid.wasHit):
+		# Bonus score when asteroid is removed, based on number of hits
+		var bonus_points = 10 * asteroid.hitCount
+		userScore += bonus_points
+		print("Asteroid destroyed! Bonus points: ", bonus_points, " Score updated to: ", userScore)
+		
+		# Notify the UserScoreLabel directly about the score change
+		if $GameUI/UserScoreLabel:
+			$GameUI/UserScoreLabel.on_score_changed(bonus_points)
+		
+		# Don't Show popup for destruction bonus
+		# var asteroid_id = asteroid.asteroid_id
+		# show_score_popup("DESTROYED!", bonus_points, Color(0x51, 0xCF, 0x66), asteroid.global_position, asteroid_id)
+	
 	# If the asteroid hit Earth, add a small delay to make the impact feel more dramatic
 	if asteroid.hitEarth:
 		# Wait a short moment to show the impact
@@ -511,20 +526,6 @@ func removeAsteroid(asteroid, hit):
 	
 	$Area2D/CollisionShape2D.remove_child(asteroid)
 	asteroid.queue_free()
-	
-	
-	if (asteroid.wasHit):
-		# Bonus score when asteroid is removed, based on number of hits
-		var bonus_points = 10 * asteroid.hitCount
-		userScore += bonus_points
-		
-		# Notify the UserScoreLabel directly about the score change
-		if $GameUI/UserScoreLabel:
-			$GameUI/UserScoreLabel.on_score_changed(bonus_points)
-		
-		# Don't Show popup for destruction bonus
-		# var asteroid_id = asteroid.asteroid_id
-		# show_score_popup("DESTROYED!", bonus_points, Color(0x51, 0xCF, 0x66), asteroid.global_position, asteroid_id)
 	
 	#print("user score is: ", userScore)
 	#print("mass extinctions: ", massExtinctions)
