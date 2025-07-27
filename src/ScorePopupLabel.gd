@@ -17,9 +17,14 @@ func _ready():
 	add_theme_font_override("normal_font", font)
 	add_theme_font_size_override("normal_font_size", 32)
 
-func show_popup(text: String, color: Color = Color.WHITE, duration: float = 2.0, asteroid_position: Vector2 = Vector2.ZERO):
+func show_popup(text: String, score: int = 0, color: Color = Color.WHITE, duration: float = 2.0, asteroid_position: Vector2 = Vector2.ZERO):
+	# Format the text with score if provided
+	var display_text = text
+	if score > 0:
+		display_text = "+" + str(score) + " " + text
+	
 	# Set the text with color
-	self.text = "[color=" + color.to_html(false) + "]" + text + "[/color]"
+	self.text = "[color=" + color.to_html(false) + "]" + display_text + "[/color]"
 	
 	# Position at asteroid location if provided, otherwise use random position
 	if asteroid_position != Vector2.ZERO:

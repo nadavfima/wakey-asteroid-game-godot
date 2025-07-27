@@ -301,14 +301,14 @@ func strsec(secs):
 		s = "0" + s
 	return s
 
-func show_score_popup(text: String, color: Color = Color.WHITE, asteroid_position: Vector2 = Vector2.ZERO):
+func show_score_popup(text: String, score: int = 0, color: Color = Color.WHITE, asteroid_position: Vector2 = Vector2.ZERO):
 	# Create a new popup label
 	var popup = popup_label_scene.instantiate()
 	$GameUI.add_child(popup)
 	active_popups.append(popup)
 	
 	# Show the popup (this will handle its own cleanup)
-	popup.show_popup(text, color, 2.0, asteroid_position)
+	popup.show_popup(text, score, color, 2.0, asteroid_position)
 	
 	# Set up automatic cleanup
 	popup.tree_exited.connect(func(): active_popups.erase(popup))
@@ -328,7 +328,7 @@ func _onAsteroidHitByMoon(asteroid):
 	userScore += 5
 	
 	# Don't Show popup for moon hit
-	# show_score_popup("+2 MOON HIT!", Color(0xFE, 0xC1, 0x5D), asteroid.global_position)
+	# show_score_popup("MOON HIT!", 2, Color(0xFE, 0xC1, 0x5D), asteroid.global_position)
 	
 	# Add angular velocity boost to potentially trigger crazy spin
 	var angular_boost = randf_range(15.0, 25.0)
@@ -344,7 +344,7 @@ func _onAsteroidHitByAsteroid(asteroid):
 	userScore += 5
 	
 	# Show popup for chain reaction
-	show_score_popup("+5 CHAIN REACTION!", Color(0xFF, 0x6B, 0x6B), asteroid.global_position)
+	show_score_popup("CHAIN REACTION!", 5, Color(0xFF, 0x6B, 0x6B), asteroid.global_position)
 	
 	# Add significant angular velocity boost for asteroid-asteroid collisions
 	var angular_boost = randf_range(20.0, 35.0)
@@ -365,7 +365,7 @@ func _onAsteroidHitEarth(asteroid):
 	massExtinctions += 1
 	
 	# Show popup for mass extinction
-	show_score_popup("MASS EXTINCTION!", Color(0xFF, 0x00, 0x00), asteroid.global_position)
+	show_score_popup("MASS EXTINCTION!", 0, Color(0xFF, 0x00, 0x00), asteroid.global_position)
 	
 	# Remove the asteroid after a delay to show the impact
 	await get_tree().create_timer(0.5).timeout
@@ -388,7 +388,7 @@ func _onAsteroidCrazySpin(asteroid, points):
 	userScore += points
 	
 	# Show popup for crazy spin
-	show_score_popup("+" + str(points) + " CRAZY SPIN!", Color(0x4E, 0xCA, 0xE8), asteroid.global_position)
+	show_score_popup("CRAZY SPIN!", points, Color(0x4E, 0xCA, 0xE8), asteroid.global_position)
 	pass
 	
 
@@ -411,7 +411,7 @@ func removeAsteroid(asteroid, hit):
 		userScore += bonus_points
 		
 		# Don't Show popup for destruction bonus
-		# show_score_popup("+" + str(bonus_points) + " DESTROYED!", Color(0x51, 0xCF, 0x66), asteroid.global_position)
+		# show_score_popup("DESTROYED!", bonus_points, Color(0x51, 0xCF, 0x66), asteroid.global_position)
 	
 	#print("user score is: ", userScore)
 	#print("mass extinctions: ", massExtinctions)
