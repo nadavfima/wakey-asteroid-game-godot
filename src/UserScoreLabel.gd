@@ -11,7 +11,7 @@ func _ready():
 	var font = load("res://assets/Fredoka-Bold.ttf")
 	if font:
 		add_theme_font_override("normal_font", font)
-		add_theme_font_size_override("normal_font_size", 28)
+		add_theme_font_size_override("normal_font_size", 32)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -29,10 +29,10 @@ func _process(delta):
 		if score == null:
 			score = 0
 	
-	# Create a more visually appealing score display
+	# Create a more visually appealing score display - now the main indicator
 	text = str(
 		"[center]",
-		"[font_size=20][color=#FEC15D]USER SCORE[/color][/font_size]\n",
-		"[font_size=48][color=#FFFFF3]", score, "[/color][/font_size]",
+		"[font_size=24][color=#FEC15D]SCORE[/color][/font_size]\n",
+		"[font_size=72][color=#FFFFF3]", score, "[/color][/font_size]",
 		"[/center]"
 	)

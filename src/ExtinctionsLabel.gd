@@ -11,7 +11,7 @@ func _ready():
 	var font = load("res://assets/Fredoka-Bold.ttf")
 	if font:
 		add_theme_font_override("normal_font", font)
-		add_theme_font_size_override("normal_font_size", 28)
+		add_theme_font_size_override("normal_font_size", 20)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -31,12 +31,12 @@ func _process(delta):
 			extinctions = 0
 		remaining = 3 - extinctions
 	
-	# Create a more visually appealing extinctions display
+	# Create a more visually appealing extinctions display - now a secondary indicator
 	text = str(
 		"[center]",
-		"[font_size=18][color=#FEC15D]EXTINCTIONS[/color][/font_size]\n",
-		"[font_size=18][color=#FEC15D]REMAINING[/color][/font_size]\n",
-		"[font_size=48][color=#FFFFF3]", remaining, "[/color][/font_size]",
+		"[font_size=14][color=#FEC15D]EXTINCTIONS[/color][/font_size]\n",
+		"[font_size=14][color=#FEC15D]LEFT[/color][/font_size]\n",
+		"[font_size=36][color=#FFFFF3]", remaining, "[/color][/font_size]",
 		"[/center]"
 	)
 	pass

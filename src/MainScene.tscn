@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bwd2fsx7s2ugo"]
+[gd_scene load_steps=18 format=3 uid="uid://bwd2fsx7s2ugo"]
 
 [ext_resource type="AudioStream" uid="uid://brfnjljeumqka" path="res://assets/Space Rubble.wav" id="1"]
 [ext_resource type="Script" uid="uid://bhsdbd02msp2j" path="res://src/Player.gd" id="2"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://bsqrblxwbk355" path="res://assets/rocket.png" id="8_tlhjj"]
 [ext_resource type="Texture2D" uid="uid://cbc2y2yptah02" path="res://assets/button.png" id="9"]
 [ext_resource type="Texture2D" uid="uid://da2fb5s0o5b2x" path="res://assets/button_pressed.png" id="10"]
+[ext_resource type="Script" path="res://src/EpochLabel.gd" id="11"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(820, 1224)
@@ -166,13 +167,13 @@ grow_vertical = 2
 
 [node name="UserScoreLabel" type="RichTextLabel" parent="GameUI"]
 layout_mode = 0
-offset_left = 500.0
+offset_left = 300.0
 offset_top = 30.0
-offset_right = 700.0
-offset_bottom = 150.0
+offset_right = 500.0
+offset_bottom = 200.0
 bbcode_enabled = true
 text = "
-User Score
+Score
 0
 "
 scroll_active = false
@@ -180,17 +181,32 @@ script = ExtResource("4")
 
 [node name="ExtinctionsLabel" type="RichTextLabel" parent="GameUI"]
 layout_mode = 0
-offset_left = 100.0
+offset_left = 50.0
 offset_top = 30.0
-offset_right = 400.0
-offset_bottom = 150.0
+offset_right = 250.0
+offset_bottom = 120.0
 bbcode_enabled = true
 text = "
-Extinctions Remaining
-0
+Extinctions
+Left
+3
 "
 scroll_active = false
 script = ExtResource("6")
+
+[node name="EpochLabel" type="RichTextLabel" parent="GameUI"]
+layout_mode = 0
+offset_left = 550.0
+offset_top = 30.0
+offset_right = 750.0
+offset_bottom = 120.0
+bbcode_enabled = true
+text = "
+Epoch
+13.8B
+"
+scroll_active = false
+script = ExtResource("11")
 
 [node name="GameOverScreen" type="CanvasLayer" parent="."]
 visible = false

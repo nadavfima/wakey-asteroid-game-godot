@@ -19,8 +19,8 @@ var massExtinctions = 0
 var maxExtinctions = 3
 
 # Animation tweens
-var moon_tween: Tween
-var earth_tween: Tween
+var moon_tween: Tween = null
+var earth_tween: Tween = null
 
 # Position constants
 const MOON_TITLE_Y = -400
@@ -50,10 +50,6 @@ func _ready():
 	$TitleScreen/Control/StartButton.pressed.connect(_on_start_button_pressed)
 	$GameOverScreen/Control/VBoxContainer/RestartButton.pressed.connect(_on_restart_button_pressed)
 	$GameOverScreen/Control/VBoxContainer/MainMenuButton.pressed.connect(_on_main_menu_button_pressed)
-	
-	# Initialize tweens
-	moon_tween = create_tween()
-	earth_tween = create_tween()
 	
 	# Test animation system
 	print("Initial positions:")
@@ -140,6 +136,9 @@ func start_game():
 	# Start star acceleration
 	$Stars.start_game()
 	
+	# Start the years counter
+	$GameUI/EpochLabel.start_counting()
+	
 	# Animate moon and earth to game positions
 	animate_to_game_positions()
 	
@@ -206,6 +205,10 @@ func animate_to_game_positions():
 	await moon_tween.finished
 	print("Animation to game positions completed")
 	$Area2D/Player.is_animating = false
+	
+	# Clean up tweens
+	moon_tween = null
+	earth_tween = null
 
 func animate_to_title_positions():
 	# Signal to Player that animation is starting
@@ -232,6 +235,10 @@ func animate_to_title_positions():
 	await moon_tween.finished
 	print("Animation to title positions completed")
 	$Area2D/Player.is_animating = false
+	
+	# Clean up tweens
+	moon_tween = null
+	earth_tween = null
 
 func generateAsteroid(seconds, enforceSecondsRule):
 	
