@@ -406,7 +406,7 @@ func _onAsteroidHitEarth(asteroid):
 	var asteroid_id = asteroid_node.asteroid_id
 	
 	# Add dramatic screen shake for earth collision
-	_add_screen_shake(15.0, 0.5)
+	_add_screen_shake(25.0, 1.5)
 	
 	# Show popup for mass extinction
 	show_score_popup("MASS EXTINCTION!", 0, Color(0xFF, 0x00, 0x00), asteroid.global_position, asteroid_id)
