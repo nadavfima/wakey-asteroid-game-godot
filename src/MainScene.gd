@@ -313,6 +313,7 @@ func generateAsteroid(seconds, enforceSecondsRule):
 	body.connect("asteroid_hit_by_asteroid", Callable(self, "_onAsteroidHitByAsteroid"))
 	body.connect("asteroid_hit_earth", Callable(self, "_onAsteroidHitEarth"))
 	body.connect("asteroid_crazy_spin", Callable(self, "_onAsteroidCrazySpin"))
+	body.connect("asteroid_moon_hit_complete", Callable(self, "_onAsteroidMoonHitComplete"))
 	body.get_node("VisibleOnScreenNotifier2D").connect("asteroid_exit_screen", Callable(self, "_onAsteroidExitScreen"))
 
 	
@@ -364,7 +365,13 @@ func clear_all_popups():
 
 func _onAsteroidHitByMoon(asteroid):
 	print("hit")
-	asteroid.get_parent().onHit()
+	var asteroid_node = asteroid.get_parent()
+	
+	# Check if asteroid was already hit by moon to prevent duplicate processing
+	if asteroid_node.hitByMoon:
+		return
+	
+	asteroid_node.onHit()
 	
 	# Give immediate score for the hit
 	userScore += 5
@@ -373,7 +380,6 @@ func _onAsteroidHitByMoon(asteroid):
 	_add_screen_shake(5.0, 0.2)
 	
 	# Don't Show popup for moon hit
-	# var asteroid_node = asteroid.get_parent()
 	# var asteroid_id = asteroid_node.asteroid_id
 	# show_score_popup("MOON HIT!", 2, Color(0xFE, 0xC1, 0x5D), asteroid.global_position, asteroid_id)
 	
@@ -381,6 +387,8 @@ func _onAsteroidHitByMoon(asteroid):
 	var angular_boost = randf_range(15.0, 25.0)
 	asteroid.angular_velocity += angular_boost * (1 if randf() > 0.5 else -1)  # Random direction
 	print("Added angular boost: ", angular_boost, " to asteroid")
+	
+	# The asteroid will now flash and be removed by the flashing sequence
 	pass
 
 func _onAsteroidHitByAsteroid(asteroid):
@@ -445,6 +453,10 @@ func _onAsteroidExitScreen(asteroid):
 	if asteroid.hitEarth:
 		return
 	
+	# Don't remove asteroids that were hit by the moon (they'll be removed by flashing sequence)
+	if asteroid.hitByMoon:
+		return
+	
 	removeAsteroid(asteroid, false)
 	pass
 
@@ -458,6 +470,12 @@ func _onAsteroidCrazySpin(asteroid, points):
 	
 	# Show popup for crazy spin (will update existing popup if one exists for this asteroid)
 	show_score_popup("CRAZY SPIN!", points, Color(0x4E, 0xCA, 0xE8), asteroid.global_position, asteroid_id)
+	pass
+
+func _onAsteroidMoonHitComplete(asteroid):
+	print("Asteroid moon hit sequence complete, removing asteroid")
+	var asteroid_node = asteroid.get_parent()
+	removeAsteroid(asteroid_node, true)
 	pass
 	
 

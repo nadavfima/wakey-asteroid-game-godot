@@ -6,6 +6,7 @@ signal asteroid_hit_by_moon
 signal asteroid_hit_by_asteroid
 signal asteroid_hit_earth
 signal asteroid_crazy_spin
+signal asteroid_moon_hit_complete  # New signal for when moon hit sequence is complete
 
 # Rotation tracking variables
 var is_spinning_crazily = false
@@ -17,6 +18,7 @@ var asteroid_mass: float = 1.0
 
 # Visual feedback
 var collision_flash_tween: Tween = null
+var moon_hit_flash_tween: Tween = null  # New tween for moon hit flashing
 
 func _init():
 	angular_velocity = randf_range(PhysicsConfig.INITIAL_ANGULAR_VELOCITY_MIN, PhysicsConfig.INITIAL_ANGULAR_VELOCITY_MAX)
@@ -89,6 +91,12 @@ func _handle_moon_collision(moon_body):
 	
 	# Add some randomness to make it more interesting
 	angular_velocity += randf_range(PhysicsConfig.MOON_ANGULAR_BOOST_MIN, PhysicsConfig.MOON_ANGULAR_BOOST_MAX)
+	
+	# Mark asteroid as hit by moon and start flashing sequence
+	var asteroid_node = get_parent()
+	if asteroid_node.has_method("onHitByMoon"):
+		asteroid_node.onHitByMoon()
+		_start_moon_hit_flash_sequence()
 	
 	# Visual feedback for moon collision
 	_add_collision_flash()
@@ -223,6 +231,37 @@ func _add_collision_flash():
 				collision_flash_tween.tween_property(child, "modulate", original_color, PhysicsConfig.COLLISION_FLASH_DURATION * 0.5)
 				break
 
+func _start_moon_hit_flash_sequence():
+	# Stop any existing moon hit flash
+	if moon_hit_flash_tween:
+		moon_hit_flash_tween.kill()
+	
+	# Wait 2 seconds before starting the flash sequence
+	await get_tree().create_timer(2.0).timeout
+	
+	# Check if asteroid is still valid after the delay
+	if not is_instance_valid(self):
+		return
+	
+	moon_hit_flash_tween = create_tween()
+	
+	# Find the sprite and start flashing
+	var collision_shape = get_node("CollisionShape2D")
+	if collision_shape:
+		for child in collision_shape.get_children():
+			if child is Sprite2D:
+				var original_color = child.modulate
+				
+				# Flash for about 1 second (10 flashes of 0.1 seconds each)
+				for i in range(10):
+					moon_hit_flash_tween.tween_property(child, "modulate", Color(1.5, 1.5, 1.5, 1.0), 0.05)  # Bright white flash
+					moon_hit_flash_tween.tween_property(child, "modulate", Color(0.3, 0.3, 0.3, 1.0), 0.05)  # Dim flash
+				
+				# After flashing, emit signal to remove the asteroid
+				moon_hit_flash_tween.tween_callback(func(): 
+					emit_signal("asteroid_moon_hit_complete", get_node("."))
+				)
+				break
 
 
 # Function to handle Earth collision physics
