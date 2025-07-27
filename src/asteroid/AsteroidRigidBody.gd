@@ -3,6 +3,7 @@ extends RigidBody2D
 #var mainScene = load("res://src/MainScene.gd")
 
 signal asteroid_hit_by_moon
+signal asteroid_hit_by_asteroid
 
 const range_easy = [600, 900]
 const range_moderate = [900, 1200]
@@ -19,10 +20,11 @@ func _process(delta):
 	#print("body process")
 	for body in get_colliding_bodies():
 		#if we hit the moon
-		#if body is KinematicBody2D:
-		
-		#if we hit the moon or another asteroid
+		if body.name == "Player":
 			emit_signal("asteroid_hit_by_moon", get_node("."))
+		# If we hit another asteroid
+		elif body.has_method("onHit"):
+			emit_signal("asteroid_hit_by_asteroid", get_node("."))
 	
 	pass
 pass
