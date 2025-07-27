@@ -7,6 +7,11 @@ var color_tween: Tween
 var original_scale: Vector2
 var original_color: Color
 
+# Streak tracking variables
+var streak_score = 0
+var last_score_time = 0.0
+var streak_timeout = 1.0  # Reset streak after 2 seconds of no scoring
+
 # Sparkle variables
 var sparkle_scene: PackedScene
 
@@ -57,8 +62,14 @@ func _process(delta):
 	
 	# Check if score increased and trigger animations
 	if score > previous_score:
-		trigger_score_animations(score - previous_score)
+		var score_increase = score - previous_score
+		update_streak(score_increase)
+		trigger_score_animations(score_increase)
 		previous_score = score
+	
+	# Check for streak timeout
+	if Time.get_unix_time_from_system() - last_score_time > streak_timeout and streak_score > 0:
+		reset_streak()
 	
 	# Create a more visually appealing score display - now the main indicator
 	text = str(
@@ -70,6 +81,16 @@ func _process(delta):
 	
 	# Update pivot offset to center for proper scaling animation
 	pivot_offset = size / 2
+
+func update_streak(score_increase: int):
+	# Update streak score and time
+	streak_score += score_increase
+	last_score_time = Time.get_unix_time_from_system()
+
+func reset_streak():
+	# Reset streak when timeout occurs
+	streak_score = 0
+	last_score_time = 0.0
 
 func trigger_score_animations(score_increase: int):
 	# Stop any existing tweens
@@ -87,9 +108,10 @@ func trigger_score_animations(score_increase: int):
 	score_tween.tween_property(self, "scale", original_scale * 1.3, 0.1)
 	score_tween.tween_property(self, "scale", original_scale, 0.2).set_delay(0.1)
 	
-	# Color flash animation - using game's star colors
+	# Color flash animation - using game's star colors based on streak
 	color_tween.set_parallel(true)
-	color_tween.tween_property(self, "modulate", Color(1.0, 0.757, 0.0, 1.0), 0.1)  # Bright yellow like stars
+	var flash_color = get_streak_color()
+	color_tween.tween_property(self, "modulate", flash_color, 0.1)
 	color_tween.tween_property(self, "modulate", original_color, 0.3).set_delay(0.1)
 	
 	# Create sparkles around the score
@@ -98,6 +120,28 @@ func trigger_score_animations(score_increase: int):
 	# Create floating score text for larger increases
 	if score_increase >= 10:
 		create_floating_score_text(score_increase)
+
+func get_streak_color() -> Color:
+	# Choose color based on accumulated streak score
+	var star_colors = [
+		Color.WHITE,                 # White like game's star_color_1
+		Color(0.145, 0.678, 1.0),  # Blue like game's star_color_2
+		Color(1.0, 0.757, 0.0),    # Yellow like game's star_color_3
+		Color(1.0, 0.220, 0.0),    # Orange like game's star_color_4
+	]
+	
+	# Use different colors for different streak ranges
+	var color_index = 0
+	if streak_score >= 300:
+		color_index = 3  # White for big streaks
+	elif streak_score >= 200:
+		color_index = 2  # Orange for medium-high streaks
+	elif streak_score >= 100:
+		color_index = 1  # Blue for medium streaks
+	else:
+		color_index = 0  # Yellow for smaller streaks
+	
+	return star_colors[color_index]
 
 func create_sparkles(score_increase: int):
 	# Create sparkles around the score display
@@ -161,26 +205,8 @@ func create_floating_score_text(score_increase: int):
 	var score_center = global_position + size / 2
 	floating_label.position = score_center + Vector2(0, -50)
 	
-	# Choose color based on score increase - more variety like the stars
-	var star_colors = [
-		Color(1.0, 0.757, 0.0),    # Yellow like game's star_color_3
-		Color(0.145, 0.678, 1.0),  # Blue like game's star_color_2
-		Color(1.0, 0.220, 0.0),    # Orange like game's star_color_4
-		Color.WHITE                 # White like game's star_color_1
-	]
-	
-	# Use different colors for different score ranges
-	var color_index = 0
-	if score_increase >= 25:
-		color_index = 3  # White for big scores
-	elif score_increase >= 15:
-		color_index = 2  # Orange for medium-high scores
-	elif score_increase >= 10:
-		color_index = 1  # Blue for medium scores
-	else:
-		color_index = 0  # Yellow for smaller scores
-	
-	floating_label.modulate = star_colors[color_index]
+	# Use streak color for floating text
+	floating_label.modulate = get_streak_color()
 	
 	# Add to the scene
 	get_parent().add_child(floating_label)
