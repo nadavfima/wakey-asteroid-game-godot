@@ -23,24 +23,39 @@ func _init():
 	var selected_range = range_moderate
 	linear_velocity = Vector2(0.0, randf_range(selected_range[0], selected_range[1]))
 
+func _ready():
+	# Connect collision signals
+	body_entered.connect(_on_body_entered)
+
 func _process(delta):
-	
-	#print("body process")
-	for body in get_colliding_bodies():
-		#if we hit the moon
-		if body.name == "Player":
-			emit_signal("asteroid_hit_by_moon", get_node("."))
-		# If we hit another asteroid
-		elif body.has_method("onHit"):
-			emit_signal("asteroid_hit_by_asteroid", get_node("."))
-		# If we hit Earth
-		elif body.name == "earth":
-			emit_signal("asteroid_hit_earth", get_node("."))
-	
 	# Check for crazy spin and award points
 	_check_crazy_spin(delta)
 	
 	pass
+
+func _on_body_entered(body):
+	print("Asteroid collision detected with: ", body.name, " (type: ", body.get_class(), ")")
+	
+	# Check if the body is a RigidBody2D and if its parent has the onHit method
+	var has_on_hit = false
+	if body is RigidBody2D and body.get_parent() != null:
+		has_on_hit = body.get_parent().has_method("onHit")
+		print("Body parent has onHit method: ", has_on_hit)
+	
+	# If we hit the moon
+	if body.name == "Player":
+		print("Hit Player!")
+		emit_signal("asteroid_hit_by_moon", get_node("."))
+	# If we hit another asteroid
+	elif has_on_hit:
+		print("Hit another asteroid!")
+		emit_signal("asteroid_hit_by_asteroid", get_node("."))
+	# If we hit Earth
+	elif body.name == "earth":
+		print("Hit Earth!")
+		emit_signal("asteroid_hit_earth", get_node("."))
+	else:
+		print("Hit something else: ", body.name)
 
 func _check_crazy_spin(delta):
 	# Check if angular velocity exceeds the crazy spin threshold
