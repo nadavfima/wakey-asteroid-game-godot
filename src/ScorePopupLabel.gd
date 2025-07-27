@@ -20,6 +20,9 @@ func _ready():
 	var font = preload("res://assets/Fredoka-Bold.ttf")
 	add_theme_font_override("normal_font", font)
 	add_theme_font_size_override("normal_font_size", 32)
+	
+	# Clear any theme color overrides to ensure BBCode colors work
+	remove_theme_color_override("default_color")
 
 func update_score(new_score: int):
 	# Accumulate the score
@@ -31,7 +34,11 @@ func update_score(new_score: int):
 		display_text = "+" + str(total_score) + " " + current_text
 	
 	# Update the text with color
-	self.text = "[color=" + current_color.to_html(false) + "]" + display_text + "[/color]"
+	var color_html = current_color.to_html(false)
+	print("Updating popup text with color: ", color_html, " for text: ", display_text)
+	# Try using the hex color directly without the # prefix
+	var hex_color = color_html.substr(1) if color_html.begins_with("#") else color_html
+	self.text = "[color=#" + hex_color + "]" + display_text + "[/color]"
 	
 	# Reset the fade-out timer to keep the popup visible longer
 	if fade_timer:
@@ -64,7 +71,11 @@ func show_popup(text: String, score: int = 0, color: Color = Color.WHITE, durati
 		display_text = "+" + str(score) + " " + text
 	
 	# Set the text with color
-	self.text = "[color=" + color.to_html(false) + "]" + display_text + "[/color]"
+	var color_html = color.to_html(false)
+	print("Setting popup text with color: ", color_html, " for text: ", display_text)
+	# Try using the hex color directly without the # prefix
+	var hex_color = color_html.substr(1) if color_html.begins_with("#") else color_html
+	self.text = "[color=#" + hex_color + "]" + display_text + "[/color]"
 	
 	# Position at asteroid location if provided, otherwise use random position
 	if asteroid_position != Vector2.ZERO:
@@ -97,7 +108,7 @@ func show_popup(text: String, score: int = 0, color: Color = Color.WHITE, durati
 	
 	# Move up slightly
 	var start_pos = position
-	var end_pos = position + Vector2(0, -50)
+	var end_pos = position + Vector2(0, -150)
 	tween.parallel().tween_property(self, "position", end_pos, duration)
 	
 	# Set up the fade timer

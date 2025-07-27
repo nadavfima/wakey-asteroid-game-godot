@@ -458,7 +458,7 @@ func _onAsteroidHitEarth(asteroid):
 	spawn_explosion(asteroid.global_position)
 	
 	# Show popup for mass extinction
-	show_score_popup("MASS EXTINCTION!", 0, Color(0xFF, 0x00, 0x00), asteroid.global_position, asteroid_id)
+	show_score_popup("MASS EXTINCTION!", 0, Color(1.0, 0.439, 0.263), asteroid.global_position, asteroid_id)
 	
 	# Remove the asteroid after a delay to show the impact
 	await get_tree().create_timer(0.5).timeout
