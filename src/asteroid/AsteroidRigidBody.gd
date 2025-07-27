@@ -152,7 +152,32 @@ func _handle_asteroid_collision(other_asteroid):
 		other_asteroid._add_collision_flash()
 
 func _handle_earth_collision(earth_body):
-	# Earth collision - more dramatic physics
+	# Check if asteroid was already hit by moon - if so, don't cause mass extinction
+	var asteroid_node = get_parent()
+	if asteroid_node and asteroid_node.hitByMoon:
+		print("Asteroid was already hit by moon - no mass extinction!")
+		# Still do the physics collision but don't emit the earth hit signal
+		var collision_normal = (global_position - earth_body.global_position).normalized()
+		
+		# Calculate impact force
+		var impact_velocity = linear_velocity.length()
+		var impact_force = impact_velocity * mass
+		
+		# Bounce off with reduced velocity (Earth is massive)
+		linear_velocity = collision_normal * impact_velocity * PhysicsConfig.EARTH_ELASTICITY
+		
+		# Add dramatic spin based on impact
+		var tangential_component = linear_velocity.cross(collision_normal)
+		angular_velocity += tangential_component * PhysicsConfig.EARTH_SPIN_SCALE_FACTOR
+		
+		# Add some randomness for dramatic effect
+		angular_velocity += randf_range(PhysicsConfig.EARTH_ANGULAR_BOOST_MIN, PhysicsConfig.EARTH_ANGULAR_BOOST_MAX)
+		
+		# Visual feedback for earth collision
+		_add_collision_flash()
+		return
+	
+	# Earth collision - more dramatic physics (only for asteroids not hit by moon)
 	var collision_normal = (global_position - earth_body.global_position).normalized()
 	
 	# Calculate impact force
