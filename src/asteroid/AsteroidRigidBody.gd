@@ -14,7 +14,7 @@ const range_crazy = [1500, 2000]
 
 # Rotation tracking variables
 const CRAZY_SPIN_THRESHOLD = 20.0  # Angular velocity threshold for "crazy spin"
-const SPIN_SCORE_INTERVAL = 2      # Points awarded per rotation when spinning crazily (integer)
+const SPIN_SCORE_INTERVAL = 5      # Points awarded per rotation when spinning crazily (integer)
 var last_spin_score_time = 0.0
 var is_spinning_crazily = false
 

@@ -325,7 +325,7 @@ func _onAsteroidHitByMoon(asteroid):
 	asteroid.get_parent().onHit()
 	
 	# Give immediate score for the hit
-	userScore += 2
+	userScore += 5
 	
 	# Don't Show popup for moon hit
 	# show_score_popup("+2 MOON HIT!", Color(0xFE, 0xC1, 0x5D), asteroid.global_position)
