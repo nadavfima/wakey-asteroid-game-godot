@@ -55,3 +55,8 @@ func _updateWakeyPositionAccordingToMouse(delta):
 			position.x = -1 * limit;
 
 	pass
+
+func reset_position():
+	# Reset the moon's x position to center (0)
+	position.x = 0
+	pass

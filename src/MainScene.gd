@@ -48,8 +48,8 @@ func _ready():
 	
 	# Connect button signals
 	$TitleScreen/Control/StartButton.pressed.connect(_on_start_button_pressed)
-	$GameOverScreen/VBoxContainer/RestartButton.pressed.connect(_on_restart_button_pressed)
-	$GameOverScreen/VBoxContainer/MainMenuButton.pressed.connect(_on_main_menu_button_pressed)
+	$GameOverScreen/Control/VBoxContainer/RestartButton.pressed.connect(_on_restart_button_pressed)
+	$GameOverScreen/Control/VBoxContainer/MainMenuButton.pressed.connect(_on_main_menu_button_pressed)
 	
 	# Initialize tweens
 	moon_tween = create_tween()
@@ -112,6 +112,9 @@ func show_title_screen():
 	# Ensure stars are stopped
 	$Stars.end_game()
 	
+	# Reset moon's x position to center
+	$Area2D/Player.reset_position()
+	
 	# Animate moon and earth back to title positions
 	animate_to_title_positions()
 	
@@ -155,12 +158,15 @@ func show_game_over_screen():
 	# Start star deceleration
 	$Stars.end_game()
 	
+	# Reset moon's x position to center
+	$Area2D/Player.reset_position()
+	
 	# Animate moon and earth back to title positions
 	animate_to_title_positions()
 	
 	# Update game over screen with final scores
-	$GameOverScreen/VBoxContainer/ScoreLabel.text = "Final Score: " + str(userScore)
-	$GameOverScreen/VBoxContainer/ExtinctionsLabel.text = "Extinctions: " + str(massExtinctions)
+	$GameOverScreen/Control/VBoxContainer/ScoreLabel.text = "[color=#FEC15D]Final Score:[/color] [color=#FFFFF3]" + str(userScore) + "[/color]"
+	$GameOverScreen/Control/VBoxContainer/ExtinctionsLabel.text = "[color=#FEC15D]Extinctions:[/color] [color=#FFFFF3]" + str(massExtinctions) + "[/color]"
 
 func test_animation():
 	print("Testing animation system...")

@@ -139,9 +139,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -250.0
+offset_left = -249.0
 offset_top = 400.0
-offset_right = 250.0
+offset_right = 251.0
 offset_bottom = 530.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -191,19 +191,17 @@ Extinctions Remaining
 scroll_active = false
 script = ExtResource("6")
 
-[node name="GameOverScreen" type="Control" parent="."]
+[node name="GameOverScreen" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="GameOverScreen"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 389.0
-offset_top = 667.0
-offset_right = 389.0
-offset_bottom = 667.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Background" type="ColorRect" parent="GameOverScreen"]
+[node name="Background" type="ColorRect" parent="GameOverScreen/Control"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -212,47 +210,76 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.133333, 0.0392157, 0.329412, 0.9)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="GameOverScreen"]
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOverScreen/Control"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -300.0
-offset_top = 50.0
-offset_right = 300.0
-offset_bottom = 400.0
+offset_left = -350.0
+offset_top = 100.0
+offset_right = 350.0
+offset_bottom = 600.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="GameOverLabel" type="Label" parent="GameOverScreen/VBoxContainer"]
-custom_minimum_size = Vector2(0, 60)
+[node name="GameOverLabel" type="RichTextLabel" parent="GameOverScreen/Control/VBoxContainer"]
+custom_minimum_size = Vector2(0, 120)
 layout_mode = 2
-text = "GAME OVER"
+theme_override_fonts/normal_font = ExtResource("8")
+bbcode_enabled = true
+text = "[font_size=80][color=#FEC15D]GAME[/color][/font_size]
+[font_size=80][color=#FFFFF3]OVER[/color][/font_size]"
+fit_content = true
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ScoreLabel" type="Label" parent="GameOverScreen/VBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
+[node name="ScoreLabel" type="RichTextLabel" parent="GameOverScreen/Control/VBoxContainer"]
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
-text = "Final Score: 0"
+theme_override_fonts/normal_font = ExtResource("8")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "[color=#FEC15D]Final Score:[/color] [color=#FFFFF3]0[/color]"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ExtinctionsLabel" type="Label" parent="GameOverScreen/VBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
+[node name="ExtinctionsLabel" type="RichTextLabel" parent="GameOverScreen/Control/VBoxContainer"]
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
-text = "Extinctions: 0"
+theme_override_fonts/normal_font = ExtResource("8")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "[color=#FEC15D]Extinctions:[/color] [color=#FFFFF3]0[/color]"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RestartButton" type="Button" parent="GameOverScreen/VBoxContainer"]
-custom_minimum_size = Vector2(0, 60)
+[node name="RestartButton" type="Button" parent="GameOverScreen/Control/VBoxContainer"]
+custom_minimum_size = Vector2(0, 130)
 layout_mode = 2
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("8")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/hover = SubResource("3")
+theme_override_styles/pressed = SubResource("4")
+theme_override_styles/normal = SubResource("3")
 text = "PLAY AGAIN"
 
-[node name="MainMenuButton" type="Button" parent="GameOverScreen/VBoxContainer"]
-custom_minimum_size = Vector2(0, 60)
+[node name="MainMenuButton" type="Button" parent="GameOverScreen/Control/VBoxContainer"]
+custom_minimum_size = Vector2(0, 130)
 layout_mode = 2
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("8")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/hover = SubResource("3")
+theme_override_styles/pressed = SubResource("4")
+theme_override_styles/normal = SubResource("3")
 text = "MAIN MENU"
 
 [node name="Background" type="ColorRect" parent="."]
