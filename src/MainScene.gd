@@ -327,7 +327,7 @@ func _onAsteroidHitByMoon(asteroid):
 	# Give immediate score for the hit
 	userScore += 2
 	
-	# Show popup for moon hit
+	# Don't Show popup for moon hit
 	# show_score_popup("+2 MOON HIT!", Color(0xFE, 0xC1, 0x5D), asteroid.global_position)
 	
 	# Add angular velocity boost to potentially trigger crazy spin
@@ -410,7 +410,7 @@ func removeAsteroid(asteroid, hit):
 		var bonus_points = 10 * asteroid.hitCount
 		userScore += bonus_points
 		
-		# Show popup for destruction bonus
+		# Don't Show popup for destruction bonus
 		# show_score_popup("+" + str(bonus_points) + " DESTROYED!", Color(0x51, 0xCF, 0x66), asteroid.global_position)
 	
 	#print("user score is: ", userScore)
