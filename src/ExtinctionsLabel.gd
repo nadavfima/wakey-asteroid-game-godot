@@ -31,12 +31,22 @@ func _process(delta):
 			extinctions = 0
 		remaining = 3 - extinctions
 	
-	# Create a more visually appealing extinctions display - now a secondary indicator
+	# Create Earth icons display
+	var earth_icons = ""
+	for i in range(3):
+		if i < remaining:
+			# Show active Earth icon
+			earth_icons += "[img=32]res://assets/tiny_earth.png[/img] "
+		else:
+			# Show faded/empty space for lost extinctions
+			earth_icons += "[color=#444444][img=32]res://assets/tiny_earth.png[/img][/color] "
+	
+	# Create the visual extinctions display with Earth icons
 	text = str(
 		"[center]",
 		"[font_size=14][color=#FEC15D]EXTINCTIONS[/color][/font_size]\n",
-		"[font_size=14][color=#FEC15D]LEFT[/color][/font_size]\n",
-		"[font_size=36][color=#FFFFF3]", remaining, "[/color][/font_size]",
+		"\n",
+		earth_icons,
 		"[/center]"
 	)
 	pass
