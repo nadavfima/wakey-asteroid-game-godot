@@ -433,7 +433,7 @@ func _onAsteroidHitByAsteroid(asteroid):
 	var popup_position = asteroid.global_position - camera_pos + viewport_size / 2
 	
 	# Show popup for chain reaction
-	show_score_popup("CHAIN REACTION!", 5, Color(0xFF, 0x6B, 0x6B), popup_position, asteroid_id)
+	show_score_popup("CHAIN REACTION!", 5, Color(0.306, 0.792, 0.910), popup_position, asteroid_id)
 	
 	# Add significant angular velocity boost for asteroid-asteroid collisions
 	var angular_boost = randf_range(20.0, 35.0)
@@ -511,7 +511,7 @@ func _onAsteroidCrazySpin(asteroid, points):
 	var popup_position = asteroid.global_position - camera_pos + viewport_size / 2
 	
 	# Show popup for crazy spin (will update existing popup if one exists for this asteroid)
-	show_score_popup("CRAZY SPIN!", points, Color(0x4E, 0xCA, 0xE8), popup_position, asteroid_id)
+	show_score_popup("CRAZY SPIN!", points, Color(1.0, 0.420, 0.420), popup_position, asteroid_id)
 	pass
 
 func _onAsteroidMoonHitComplete(asteroid):

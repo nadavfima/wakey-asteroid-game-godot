@@ -33,12 +33,12 @@ func update_score(new_score: int):
 	if total_score > 0:
 		display_text = "+" + str(total_score) + " " + current_text
 	
-	# Update the text with color
-	var color_html = current_color.to_html(false)
-	print("Updating popup text with color: ", color_html, " for text: ", display_text)
-	# Try using the hex color directly without the # prefix
-	var hex_color = color_html.substr(1) if color_html.begins_with("#") else color_html
-	self.text = "[color=#" + hex_color + "]" + display_text + "[/color]"
+	# Update the text without BBCode and use modulate for color
+	print("Updating popup text with color: ", current_color, " for text: ", display_text)
+	self.text = display_text
+	
+	# Set the color using modulate property
+	self.modulate = current_color
 	
 	# Reset the fade-out timer to keep the popup visible longer
 	if fade_timer:
@@ -70,12 +70,12 @@ func show_popup(text: String, score: int = 0, color: Color = Color.WHITE, durati
 	if score > 0:
 		display_text = "+" + str(score) + " " + text
 	
-	# Set the text with color
-	var color_html = color.to_html(false)
-	print("Setting popup text with color: ", color_html, " for text: ", display_text)
-	# Try using the hex color directly without the # prefix
-	var hex_color = color_html.substr(1) if color_html.begins_with("#") else color_html
-	self.text = "[color=#" + hex_color + "]" + display_text + "[/color]"
+	# Set the text without BBCode and use modulate for color
+	print("Setting popup text with color: ", color, " for text: ", display_text)
+	self.text = display_text
+	
+	# Set the color using modulate property
+	self.modulate = color
 	
 	# Position at asteroid location if provided, otherwise use random position
 	if asteroid_position != Vector2.ZERO:
