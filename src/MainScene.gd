@@ -317,6 +317,7 @@ func generateAsteroid(seconds, enforceSecondsRule):
 	body.connect("asteroid_hit_earth", Callable(self, "_onAsteroidHitEarth"))
 	body.connect("asteroid_crazy_spin", Callable(self, "_onAsteroidCrazySpin"))
 	body.connect("asteroid_moon_hit_complete", Callable(self, "_onAsteroidMoonHitComplete"))
+	body.connect("asteroid_asteroid_hit_complete", Callable(self, "_onAsteroidAsteroidHitComplete"))
 	body.get_node("VisibleOnScreenNotifier2D").connect("asteroid_exit_screen", Callable(self, "_onAsteroidExitScreen"))
 
 	
@@ -413,12 +414,12 @@ func _onAsteroidHitByAsteroid(asteroid):
 	print("asteroid hit asteroid")
 	asteroid.get_parent().onHit()
 	
-	# Give immediate score for asteroid-asteroid collision
-	userScore += 5
+	# Give higher score for asteroid-asteroid collision (more than moon hits)
+	userScore += 8  # Increased from 5 to 8
 	
 	# Notify the UserScoreLabel directly about the score change
 	if $GameUI/UserScoreLabel:
-		$GameUI/UserScoreLabel.on_score_changed(5)
+		$GameUI/UserScoreLabel.on_score_changed(8)
 	
 	# Get the asteroid ID from the parent node
 	var asteroid_node = asteroid.get_parent()
@@ -432,8 +433,8 @@ func _onAsteroidHitByAsteroid(asteroid):
 	var camera_pos = $Camera2D.global_position + $Camera2D.offset
 	var popup_position = asteroid.global_position - camera_pos + viewport_size / 2
 	
-	# Show popup for chain reaction
-	show_score_popup("CHAIN REACTION!", 5, Color(0.306, 0.792, 0.910), popup_position, asteroid_id)
+	# Show popup for chain reaction with updated score
+	show_score_popup("CHAIN REACTION!", 8, Color(0.306, 0.792, 0.910), popup_position, asteroid_id)
 	
 	# Add significant angular velocity boost for asteroid-asteroid collisions
 	var angular_boost = randf_range(20.0, 35.0)
@@ -488,8 +489,11 @@ func _onAsteroidExitScreen(asteroid):
 	if asteroid.hitEarth:
 		return
 	
-	# Remove asteroids that exit screen, regardless of whether they were hit by moon
-	# This allows for removal when either exit screen OR flash animation completes (whichever comes first)
+	# Don't remove asteroids that were hit by moon or other asteroids (they'll be removed by flash sequence)
+	if asteroid.hitByMoon:
+		return
+	
+	# Remove asteroids that exit screen and weren't hit by anything
 	removeAsteroid(asteroid, false)
 	pass
 
@@ -516,6 +520,17 @@ func _onAsteroidCrazySpin(asteroid, points):
 
 func _onAsteroidMoonHitComplete(asteroid):
 	print("Asteroid moon hit sequence complete, removing asteroid")
+	var asteroid_node = asteroid.get_parent()
+	
+	# Check if asteroid is still valid and hasn't been removed yet
+	if is_instance_valid(asteroid_node) and not asteroid_node.isRemoved:
+		removeAsteroid(asteroid_node, true)
+	else:
+		print("Asteroid was already removed by exit screen logic")
+	pass
+
+func _onAsteroidAsteroidHitComplete(asteroid):
+	print("Asteroid-asteroid hit sequence complete, removing asteroid")
 	var asteroid_node = asteroid.get_parent()
 	
 	# Check if asteroid is still valid and hasn't been removed yet

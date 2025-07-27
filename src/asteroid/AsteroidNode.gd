@@ -22,5 +22,11 @@ func onHitEarth():
 func onHitByMoon():
 	hitByMoon = true
 
+func onHitByAsteroid():
+	# Mark as hit by asteroid (similar to moon hit but different state)
+	hitByMoon = true  # Reuse the same state since both lead to removal
+	hitCount += 1
+	wasHit = true
+
 func markAsRemoved():
 	isRemoved = true
