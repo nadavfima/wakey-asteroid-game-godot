@@ -164,9 +164,8 @@ func show_game_over_screen():
 	# Animate moon and earth back to title positions
 	animate_to_title_positions()
 	
-	# Update game over screen with final scores
+	# Update game over screen with final score
 	$GameOverScreen/Control/VBoxContainer/ScoreLabel.text = "[color=#FEC15D]Final Score:[/color] [color=#FFFFF3]" + str(userScore) + "[/color]"
-	$GameOverScreen/Control/VBoxContainer/ExtinctionsLabel.text = "[color=#FEC15D]Extinctions:[/color] [color=#FFFFF3]" + str(massExtinctions) + "[/color]"
 
 func test_animation():
 	print("Testing animation system...")
