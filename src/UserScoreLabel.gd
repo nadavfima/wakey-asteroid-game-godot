@@ -17,8 +17,17 @@ func _ready():
 func _process(delta):
 	var main_scene = get_parent().get_parent()
 	var score = 0
+	
+	# Access the userScore variable directly from MainScene
 	if main_scene.has_method("get_user_score"):
+		score = main_scene.get_user_score()
+	elif main_scene.has_method("userScore"):
 		score = main_scene.userScore
+	else:
+		# Try to access the variable directly
+		score = main_scene.get("userScore")
+		if score == null:
+			score = 0
 	
 	# Create a more visually appealing score display
 	text = str(

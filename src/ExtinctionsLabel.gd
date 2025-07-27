@@ -17,8 +17,19 @@ func _ready():
 func _process(delta):
 	var main_scene = get_parent().get_parent()
 	var remaining = 3
+	
+	# Access the massExtinctions variable directly from MainScene
 	if main_scene.has_method("get_mass_extinctions"):
+		var extinctions = main_scene.get_mass_extinctions()
+		remaining = 3 - extinctions
+	elif main_scene.has_method("massExtinctions"):
 		remaining = 3 - main_scene.massExtinctions
+	else:
+		# Try to access the variable directly
+		var extinctions = main_scene.get("massExtinctions")
+		if extinctions == null:
+			extinctions = 0
+		remaining = 3 - extinctions
 	
 	# Create a more visually appealing extinctions display
 	text = str(

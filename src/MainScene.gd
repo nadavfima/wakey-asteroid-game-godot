@@ -323,3 +323,10 @@ func _on_restart_button_pressed():
 
 func _on_main_menu_button_pressed():
 	show_title_screen()
+
+# Getter methods for the UI labels
+func get_user_score():
+	return userScore
+
+func get_mass_extinctions():
+	return massExtinctions
