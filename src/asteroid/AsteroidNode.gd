@@ -5,6 +5,7 @@ var hitCount = 0
 var wasHit = false
 var hitEarth = false
 var hitByMoon = false  # New state to track moon hits
+var isRemoved = false  # Track if asteroid has already been removed
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -20,3 +21,6 @@ func onHitEarth():
 
 func onHitByMoon():
 	hitByMoon = true
+
+func markAsRemoved():
+	isRemoved = true

@@ -460,10 +460,8 @@ func _onAsteroidExitScreen(asteroid):
 	if asteroid.hitEarth:
 		return
 	
-	# Don't remove asteroids that were hit by the moon (they'll be removed by flashing sequence)
-	if asteroid.hitByMoon:
-		return
-	
+	# Remove asteroids that exit screen, regardless of whether they were hit by moon
+	# This allows for removal when either exit screen OR flash animation completes (whichever comes first)
 	removeAsteroid(asteroid, false)
 	pass
 
@@ -486,7 +484,12 @@ func _onAsteroidCrazySpin(asteroid, points):
 func _onAsteroidMoonHitComplete(asteroid):
 	print("Asteroid moon hit sequence complete, removing asteroid")
 	var asteroid_node = asteroid.get_parent()
-	removeAsteroid(asteroid_node, true)
+	
+	# Check if asteroid is still valid and hasn't been removed yet
+	if is_instance_valid(asteroid_node) and not asteroid_node.isRemoved:
+		removeAsteroid(asteroid_node, true)
+	else:
+		print("Asteroid was already removed by exit screen logic")
 	pass
 	
 
@@ -498,6 +501,14 @@ func removeAsteroid(asteroid, hit):
 	if not is_instance_valid(asteroid):
 		print("Asteroid is no longer valid, skipping removal")
 		return
+	
+	# Check if asteroid has already been removed to prevent double-removal
+	if asteroid.isRemoved:
+		print("Asteroid was already removed, skipping")
+		return
+	
+	# Mark asteroid as removed to prevent future removal attempts
+	asteroid.markAsRemoved()
 	
 	# Update score BEFORE removing the asteroid (so we can access its properties)
 	if (asteroid.wasHit):
