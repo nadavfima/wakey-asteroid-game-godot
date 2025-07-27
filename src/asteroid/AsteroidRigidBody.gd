@@ -152,10 +152,11 @@ func _handle_asteroid_collision(other_asteroid):
 		other_asteroid._add_collision_flash()
 
 func _handle_earth_collision(earth_body):
-	# Check if asteroid was already hit by moon - if so, don't cause mass extinction
+	# Check if asteroid was already hit by moon or another asteroid - if so, don't cause mass extinction
 	var asteroid_node = get_parent()
-	if asteroid_node and asteroid_node.hitByMoon:
-		print("Asteroid was already hit by moon - no mass extinction!")
+	if asteroid_node and (asteroid_node.hitByMoon or asteroid_node.hitByAsteroid):
+		var hit_type = "moon" if asteroid_node.hitByMoon else "asteroid"
+		print("Asteroid was already hit by " + hit_type + " - no mass extinction!")
 		# Still do the physics collision but don't emit the earth hit signal
 		var collision_normal = (global_position - earth_body.global_position).normalized()
 		
