@@ -63,6 +63,7 @@ offset = Vector2(0, -360)
 stream = ExtResource("1")
 
 [node name="TitleScreen" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="Control" type="Control" parent="TitleScreen"]
 layout_mode = 3
@@ -165,10 +166,10 @@ grow_vertical = 2
 
 [node name="UserScoreLabel" type="RichTextLabel" parent="GameUI"]
 layout_mode = 0
-offset_left = 463.0
-offset_top = 46.0
-offset_right = 691.0
-offset_bottom = 154.0
+offset_left = 500.0
+offset_top = 30.0
+offset_right = 700.0
+offset_bottom = 150.0
 bbcode_enabled = true
 text = "
 User Score
@@ -179,10 +180,10 @@ script = ExtResource("4")
 
 [node name="ExtinctionsLabel" type="RichTextLabel" parent="GameUI"]
 layout_mode = 0
-offset_left = 97.0
-offset_top = 46.0
-offset_right = 605.0
-offset_bottom = 154.0
+offset_left = 100.0
+offset_top = 30.0
+offset_right = 400.0
+offset_bottom = 150.0
 bbcode_enabled = true
 text = "
 Extinctions Remaining
@@ -192,6 +193,7 @@ scroll_active = false
 script = ExtResource("6")
 
 [node name="GameOverScreen" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="Control" type="Control" parent="GameOverScreen"]
 layout_mode = 3
