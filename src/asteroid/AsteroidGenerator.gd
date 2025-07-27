@@ -2,6 +2,8 @@
 
 class AsteroidGenerator:
 
+	static var next_asteroid_id = 1
+
 	var Asteroid1 = load("res://src/asteroid/Asteroid1.tscn")
 	var Asteroid2 = load("res://src/asteroid/Asteroid2.tscn")
 	var Asteroid3 = load("res://src/asteroid/Asteroid3.tscn")
@@ -47,6 +49,10 @@ class AsteroidGenerator:
 			11:
 				newAsteroid = Asteroid11.instantiate()
 
+		# Assign unique ID to the asteroid
+		newAsteroid.asteroid_id = next_asteroid_id
+		next_asteroid_id += 1
+		
 		pass
 		
 		return newAsteroid

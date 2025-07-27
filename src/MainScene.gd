@@ -25,6 +25,7 @@ var earth_tween: Tween = null
 # Popup label system
 var popup_label_scene = preload("res://src/ScorePopupLabel.tscn")
 var active_popups = []
+var asteroid_popups = {}  # Dictionary to track popup labels by asteroid ID
 
 # Position constants
 const MOON_TITLE_Y = -400
@@ -301,17 +302,33 @@ func strsec(secs):
 		s = "0" + s
 	return s
 
-func show_score_popup(text: String, score: int = 0, color: Color = Color.WHITE, asteroid_position: Vector2 = Vector2.ZERO):
+func show_score_popup(text: String, score: int = 0, color: Color = Color.WHITE, asteroid_position: Vector2 = Vector2.ZERO, asteroid_id: int = -1):
+	# Check if we already have a popup for this asteroid
+	if asteroid_id != -1 and asteroid_popups.has(asteroid_id):
+		var existing_popup = asteroid_popups[asteroid_id]
+		if is_instance_valid(existing_popup):
+			# Update existing popup with new score
+			existing_popup.update_score(score)
+			return
+	
 	# Create a new popup label
 	var popup = popup_label_scene.instantiate()
 	$GameUI.add_child(popup)
 	active_popups.append(popup)
 	
+	# Track by asteroid ID if provided
+	if asteroid_id != -1:
+		asteroid_popups[asteroid_id] = popup
+	
 	# Show the popup (this will handle its own cleanup)
 	popup.show_popup(text, score, color, 2.0, asteroid_position)
 	
 	# Set up automatic cleanup
-	popup.tree_exited.connect(func(): active_popups.erase(popup))
+	popup.tree_exited.connect(func(): 
+		active_popups.erase(popup)
+		if asteroid_id != -1 and asteroid_popups.has(asteroid_id):
+			asteroid_popups.erase(asteroid_id)
+	)
 
 func clear_all_popups():
 	# Remove all active popup labels
@@ -319,6 +336,7 @@ func clear_all_popups():
 		if is_instance_valid(popup):
 			popup.queue_free()
 	active_popups.clear()
+	asteroid_popups.clear()
 
 func _onAsteroidHitByMoon(asteroid):
 	print("hit")
@@ -328,7 +346,9 @@ func _onAsteroidHitByMoon(asteroid):
 	userScore += 5
 	
 	# Don't Show popup for moon hit
-	# show_score_popup("MOON HIT!", 2, Color(0xFE, 0xC1, 0x5D), asteroid.global_position)
+	# var asteroid_node = asteroid.get_parent()
+	# var asteroid_id = asteroid_node.asteroid_id
+	# show_score_popup("MOON HIT!", 2, Color(0xFE, 0xC1, 0x5D), asteroid.global_position, asteroid_id)
 	
 	# Add angular velocity boost to potentially trigger crazy spin
 	var angular_boost = randf_range(15.0, 25.0)
@@ -343,8 +363,12 @@ func _onAsteroidHitByAsteroid(asteroid):
 	# Give immediate score for asteroid-asteroid collision
 	userScore += 5
 	
+	# Get the asteroid ID from the parent node
+	var asteroid_node = asteroid.get_parent()
+	var asteroid_id = asteroid_node.asteroid_id
+	
 	# Show popup for chain reaction
-	show_score_popup("CHAIN REACTION!", 5, Color(0xFF, 0x6B, 0x6B), asteroid.global_position)
+	show_score_popup("CHAIN REACTION!", 5, Color(0xFF, 0x6B, 0x6B), asteroid.global_position, asteroid_id)
 	
 	# Add significant angular velocity boost for asteroid-asteroid collisions
 	var angular_boost = randf_range(20.0, 35.0)
@@ -364,8 +388,11 @@ func _onAsteroidHitEarth(asteroid):
 	# Update extinctions count immediately when Earth is hit
 	massExtinctions += 1
 	
+	# Get the asteroid ID from the parent node
+	var asteroid_id = asteroid_node.asteroid_id
+	
 	# Show popup for mass extinction
-	show_score_popup("MASS EXTINCTION!", 0, Color(0xFF, 0x00, 0x00), asteroid.global_position)
+	show_score_popup("MASS EXTINCTION!", 0, Color(0xFF, 0x00, 0x00), asteroid.global_position, asteroid_id)
 	
 	# Remove the asteroid after a delay to show the impact
 	await get_tree().create_timer(0.5).timeout
@@ -387,8 +414,12 @@ func _onAsteroidCrazySpin(asteroid, points):
 	print("Asteroid crazy spin! Awarding ", points, " points")
 	userScore += points
 	
-	# Show popup for crazy spin
-	show_score_popup("CRAZY SPIN!", points, Color(0x4E, 0xCA, 0xE8), asteroid.global_position)
+	# Get the asteroid ID from the parent node
+	var asteroid_node = asteroid.get_parent()
+	var asteroid_id = asteroid_node.asteroid_id
+	
+	# Show popup for crazy spin (will update existing popup if one exists for this asteroid)
+	show_score_popup("CRAZY SPIN!", points, Color(0x4E, 0xCA, 0xE8), asteroid.global_position, asteroid_id)
 	pass
 	
 
@@ -411,7 +442,8 @@ func removeAsteroid(asteroid, hit):
 		userScore += bonus_points
 		
 		# Don't Show popup for destruction bonus
-		# show_score_popup("DESTROYED!", bonus_points, Color(0x51, 0xCF, 0x66), asteroid.global_position)
+		# var asteroid_id = asteroid.asteroid_id
+		# show_score_popup("DESTROYED!", bonus_points, Color(0x51, 0xCF, 0x66), asteroid.global_position, asteroid_id)
 	
 	#print("user score is: ", userScore)
 	#print("mass extinctions: ", massExtinctions)

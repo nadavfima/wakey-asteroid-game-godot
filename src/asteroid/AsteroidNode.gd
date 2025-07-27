@@ -1,5 +1,6 @@
 extends Node2D
 
+var asteroid_id: int = 0
 var hitCount = 0
 var wasHit = false
 var hitEarth = false
