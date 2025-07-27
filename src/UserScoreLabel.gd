@@ -7,6 +7,9 @@ var color_tween: Tween
 var original_scale: Vector2
 var original_color: Color
 
+# Sparkle variables
+var sparkle_scene: PackedScene
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Set up the RichTextLabel properties for better appearance
@@ -89,9 +92,54 @@ func trigger_score_animations(score_increase: int):
 	color_tween.tween_property(self, "modulate", Color(1.0, 0.757, 0.0, 1.0), 0.1)  # Bright yellow like stars
 	color_tween.tween_property(self, "modulate", original_color, 0.3).set_delay(0.1)
 	
+	# Create sparkles around the score
+	create_sparkles(score_increase)
+	
 	# Create floating score text for larger increases
 	if score_increase >= 10:
 		create_floating_score_text(score_increase)
+
+func create_sparkles(score_increase: int):
+	# Create sparkles around the score display
+	var sparkle_count = min(score_increase * 2, 12)  # More sparkles for bigger scores, max 12
+	
+	for i in range(sparkle_count):
+		create_single_sparkle()
+
+func create_single_sparkle():
+	# Create a sparkle using a simple Label for better visibility
+	var sparkle = Label.new()
+	sparkle.name = "Sparkle"
+	sparkle.text = "✦"  # Unicode star character
+	sparkle.add_theme_font_size_override("font_size", 24)
+	sparkle.modulate = Color(1.0, 0.757, 0.0, 1.0)  # Bright yellow
+	
+	# Position sparkle randomly around the score
+	var angle = randf() * 2 * PI
+	var distance = randf_range(30, 80)
+	var start_pos = global_position + Vector2(cos(angle) * distance, sin(angle) * distance)
+	sparkle.position = start_pos
+	
+	# Add to the scene
+	get_parent().add_child(sparkle)
+	
+	# Animate the sparkle
+	var sparkle_tween = create_tween()
+	sparkle_tween.set_parallel(true)
+	
+	# Move outward and fade
+	var end_pos = start_pos + Vector2(cos(angle) * 100, sin(angle) * 100)
+	sparkle_tween.tween_property(sparkle, "position", end_pos, 0.8)
+	sparkle_tween.tween_property(sparkle, "modulate:a", 0.0, 0.8)
+	
+	# Scale animation
+	sparkle_tween.tween_property(sparkle, "scale", Vector2(1.5, 1.5), 0.4)
+	sparkle_tween.tween_property(sparkle, "scale", Vector2(0.5, 0.5), 0.4).set_delay(0.4)
+	
+	# Remove after animation
+	sparkle_tween.tween_callback(sparkle.queue_free).set_delay(0.8)
+
+
 
 func create_floating_score_text(score_increase: int):
 	# Create a temporary label that floats up and fades out
