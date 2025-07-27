@@ -208,19 +208,21 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(1.0085, 1.00171)
 color = Color(0.133333, 0.0392157, 0.329412, 0.9)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="GameOverScreen/Control"]
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -350.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 175.0
 offset_top = 100.0
-offset_right = 350.0
-offset_bottom = 600.0
+offset_right = -175.0
+offset_bottom = -100.0
 grow_horizontal = 2
 grow_vertical = 2
+alignment = 2
 
 [node name="GameOverLabel" type="RichTextLabel" parent="GameOverScreen/Control/VBoxContainer"]
 custom_minimum_size = Vector2(0, 120)
@@ -255,6 +257,10 @@ text = "[color=#FEC15D]Extinctions:[/color] [color=#FFFFF3]0[/color]"
 scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Spacer" type="Control" parent="GameOverScreen/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
 
 [node name="RestartButton" type="Button" parent="GameOverScreen/Control/VBoxContainer"]
 custom_minimum_size = Vector2(0, 130)
