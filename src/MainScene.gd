@@ -28,6 +28,9 @@ var popup_label_scene = preload("res://src/ScorePopupLabel.tscn")
 var active_popups = []
 var asteroid_popups = {}  # Dictionary to track popup labels by asteroid ID
 
+# Explosion system
+var explosion_scene = preload("res://src/Explosion.tscn")
+
 # Screen shake system
 var original_camera_position: Vector2
 var is_shaking = false
@@ -363,6 +366,18 @@ func clear_all_popups():
 	active_popups.clear()
 	asteroid_popups.clear()
 
+func spawn_explosion(position: Vector2):
+	# Create a new explosion instance
+	var explosion = explosion_scene.instantiate()
+	
+	# Add it to the main scene so it appears above everything
+	add_child(explosion)
+	
+	# Set the explosion position
+	explosion.global_position = position
+	
+	print("Explosion spawned at position: ", position)
+
 func _onAsteroidHitByMoon(asteroid):
 	print("hit")
 	var asteroid_node = asteroid.get_parent()
@@ -438,6 +453,9 @@ func _onAsteroidHitEarth(asteroid):
 	
 	# Add dramatic screen shake for earth collision
 	_add_screen_shake(25.0, 1.5)
+	
+	# Spawn explosion at the collision point
+	spawn_explosion(asteroid.global_position)
 	
 	# Show popup for mass extinction
 	show_score_popup("MASS EXTINCTION!", 0, Color(0xFF, 0x00, 0x00), asteroid.global_position, asteroid_id)
