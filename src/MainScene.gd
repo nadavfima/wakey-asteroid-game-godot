@@ -201,7 +201,7 @@ func show_game_over_screen():
 	animate_to_title_positions()
 	
 	# Update game over screen with final score
-	$GameOverScreen/Control/VBoxContainer/ScoreLabel.text = "[color=#FEC15D]Final Score:[/color] [color=#FFFFF3]" + str(userScore) + "[/color]"
+	$GameOverScreen/Control/VBoxContainer/ScoreLabel.text = "[font_size=60][color=#FEC15D]Final Score:[/color] [color=#FFFFF3]" + str(userScore) + "[/color][/font_size]"
 	
 	# Clear all popup labels
 	clear_all_popups()

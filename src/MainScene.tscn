@@ -198,7 +198,6 @@ scroll_active = false
 script = ExtResource("11")
 
 [node name="GameOverScreen" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="Control" type="Control" parent="GameOverScreen"]
 layout_mode = 3
@@ -236,8 +235,8 @@ custom_minimum_size = Vector2(0, 120)
 layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("8")
 bbcode_enabled = true
-text = "[font_size=80][color=#FEC15D]GAME[/color][/font_size]
-[font_size=80][color=#FFFFF3]OVER[/color][/font_size]"
+text = "[font_size=120][color=#FEC15D]GAME[/color][/font_size]
+[font_size=120][color=#FFFFF3]OVER[/color][/font_size]"
 fit_content = true
 scroll_active = false
 horizontal_alignment = 1
@@ -249,7 +248,9 @@ layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("8")
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
-text = "[color=#FEC15D]Final Score:[/color] [color=#FFFFF3]0[/color]"
+text = "[font_size=60][color=#FEC15D]Final Score:[/color] [color=#FFFFF3]0[/color]
+[/font_size]"
+fit_content = true
 scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
