@@ -124,7 +124,7 @@ func show_title_screen():
 	playing = false
 	
 	# Ensure stars are stopped
-	$Stars.end_game()
+	$Area2D/Stars.end_game()
 	$GameUI.end_game()
 	
 	# Reset moon's x position to center
@@ -172,7 +172,7 @@ func start_game():
 	clear_all_popups()
 	
 	# Start star acceleration
-	$Stars.start_game()
+	$Area2D/Stars.start_game()
 	
 	# Start the years counter
 	$GameUI.start_game()
