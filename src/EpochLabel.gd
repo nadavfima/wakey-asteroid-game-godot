@@ -10,11 +10,11 @@ func _ready():
 	scroll_active = false
 	fit_content = true
 	
-	# Set custom font
+	# Set custom font with larger size
 	var font = load("res://assets/Fredoka-Bold.ttf")
 	if font:
 		add_theme_font_override("normal_font", font)
-		add_theme_font_size_override("normal_font_size", 20)
+		add_theme_font_size_override("normal_font_size", 28)  # Increased from 20
 
 func start_counting():
 	start_time = Time.get_unix_time_from_system()
@@ -27,8 +27,8 @@ func _process(delta):
 	if main_scene.current_state != main_scene.GameState.PLAYING:
 		text = str(
 			"[center]",
-			"[font_size=16][color=#FEC15D]EPOCH[/color][/font_size]\n",
-			"[font_size=32][color=#FFFFF3]13.8B[/color][/font_size]",
+			"[font_size=20][color=#FEC15D]EPOCH[/color][/font_size]\n",  # Increased from 16
+			"[font_size=40][color=#FFFFF3]13.8B[/color][/font_size]",  # Increased from 32
 			"[/center]"
 		)
 		return
@@ -49,10 +49,10 @@ func _process(delta):
 	else:
 		years_text = str(int(years))
 	
-	# Create a more visually appealing display
+	# Create a more visually appealing display with larger fonts
 	text = str(
 		"[center]",
-		"[font_size=16][color=#FEC15D]EPOCH[/color][/font_size]\n",
-		"[font_size=32][color=#FFFFF3]", years_text, "[/color][/font_size]",
+		"[font_size=20][color=#FEC15D]EPOCH[/color][/font_size]\n",  # Increased from 16
+		"[font_size=40][color=#FFFFF3]", years_text, "[/color][/font_size]",  # Increased from 32
 		"[/center]"
 	) 

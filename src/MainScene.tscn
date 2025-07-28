@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://bsqrblxwbk355" path="res://assets/rocket.png" id="8_tlhjj"]
 [ext_resource type="Texture2D" uid="uid://cbc2y2yptah02" path="res://assets/button.png" id="9"]
 [ext_resource type="Texture2D" uid="uid://da2fb5s0o5b2x" path="res://assets/button_pressed.png" id="10"]
-[ext_resource type="Script" path="res://src/EpochLabel.gd" id="11"]
+[ext_resource type="Script" uid="uid://dctvip0hgudr2" path="res://src/EpochLabel.gd" id="11"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(820, 1224)
@@ -159,7 +159,7 @@ layout_mode = 0
 offset_left = 300.0
 offset_top = 30.0
 offset_right = 500.0
-offset_bottom = 200.0
+offset_bottom = 250.0
 bbcode_enabled = true
 text = "
 Score
@@ -173,7 +173,7 @@ layout_mode = 0
 offset_left = 50.0
 offset_top = 30.0
 offset_right = 250.0
-offset_bottom = 120.0
+offset_bottom = 180.0
 bbcode_enabled = true
 text = "
 Extinctions
@@ -188,7 +188,7 @@ layout_mode = 0
 offset_left = 550.0
 offset_top = 30.0
 offset_right = 750.0
-offset_bottom = 120.0
+offset_bottom = 180.0
 bbcode_enabled = true
 text = "
 Epoch

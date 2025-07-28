@@ -9,15 +9,15 @@ func _ready():
 	scroll_active = false
 	fit_content = true
 	
-	# Set custom font
+	# Set custom font with larger size
 	var font = load("res://assets/Fredoka-Bold.ttf")
 	if font:
 		add_theme_font_override("normal_font", font)
-		add_theme_font_size_override("normal_font_size", 20)
+		add_theme_font_size_override("normal_font_size", 28)  # Increased from 20
 	
 	# Create the extinctions display
 	extinctions_display = preload("res://src/ExtinctionsDisplay.gd").new()
-	extinctions_display.position = Vector2(0, 25)  # Position closer to the text
+	extinctions_display.position = Vector2(0, 35)  # Adjusted position for larger text
 	add_child(extinctions_display)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -42,10 +42,10 @@ func _process(delta):
 	if extinctions_display:
 		extinctions_display.update_extinctions(remaining)
 	
-	# Create the visual extinctions display with just the title
+	# Create the visual extinctions display with larger, more prominent title
 	var display_text = str(
 		"[center]",
-		"[font_size=14][color=#FEC15D]EXTINCTIONS[/color][/font_size]",
+		"[font_size=20][color=#FEC15D]EXTINCTIONS[/color][/font_size]",  # Increased from 14
 		"[/center]"
 	)
 	

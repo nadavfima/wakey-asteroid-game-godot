@@ -7,20 +7,26 @@ func _ready():
 	# Load the Earth texture
 	earth_texture = load("res://assets/tiny_earth.png")
 	
-	# Create Earth icon containers
+	# Create Earth icon containers with larger sizes
 	for i in range(3):
 		var earth_icon = TextureRect.new()
 		earth_icon.texture = earth_texture
-		earth_icon.custom_minimum_size = Vector2(48, 48)
+		earth_icon.custom_minimum_size = Vector2(64, 64)  # Increased from 48x48 to 64x64
 		earth_icon.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
 		earth_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		
-		# Position the icons horizontally, centered
+		# Position the icons horizontally, properly centered
 		# ExtinctionsLabel width is 200 pixels (250 - 50)
-		# Total width for 3 icons with spacing: 3 * 48 + 2 * 12 = 168 pixels
-		# Center offset: (200 - 168) / 2 = 16 pixels
-		earth_icon.position.x = 16 + i * 60  # 60 pixels apart, centered within the label
-		earth_icon.position.y = 10      # Closer to the title
+		# Icon size: 64x64 pixels
+		# Spacing between icons: 16 pixels
+		# Total width needed: 3 * 64 + 2 * 16 = 224 pixels
+		# Since container is only 200 pixels, we need to adjust spacing
+		# Available space: 200 - (3 * 64) = 200 - 192 = 8 pixels
+		# Spacing between icons: 8 / 2 = 4 pixels
+		# Starting position: (200 - 224) / 2 = -12, but we'll use 0 and adjust spacing
+		var icon_spacing = 4  # Reduced spacing to fit within container
+		earth_icon.position.x = i * (64 + icon_spacing)  # 64 pixels per icon + 4 pixels spacing
+		earth_icon.position.y = 15      # Adjusted position for larger icons
 		
 		add_child(earth_icon)
 		earth_icons.append(earth_icon)

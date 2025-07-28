@@ -22,11 +22,11 @@ func _ready():
 	scroll_active = false
 	fit_content = true
 	
-	# Set custom font
+	# Set custom font with larger size
 	var font = load("res://assets/Fredoka-Bold.ttf")
 	if font:
 		add_theme_font_override("normal_font", font)
-		add_theme_font_size_override("normal_font_size", 32)
+		add_theme_font_size_override("normal_font_size", 40)  # Increased from 32
 	
 	# Store original properties for animations
 	original_scale = scale
@@ -72,11 +72,11 @@ func _process(delta):
 	if Time.get_unix_time_from_system() - last_score_time > streak_timeout and streak_score > 0:
 		reset_streak()
 	
-	# Create a more visually appealing score display - now the main indicator
+	# Create a more visually appealing score display - now the main indicator with larger fonts
 	text = str(
 		"[center]",
-		"[font_size=24][color=#FEC15D]SCORE[/color][/font_size]\n",
-		"[font_size=72][color=#FFFFF3]", score, "[/color][/font_size]",
+		"[font_size=28][color=#FEC15D]SCORE[/color][/font_size]\n",  # Increased from 24
+		"[font_size=88][color=#FFFFF3]", score, "[/color][/font_size]",  # Increased from 72
 		"[/center]"
 	)
 	
