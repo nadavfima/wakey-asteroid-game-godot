@@ -64,10 +64,10 @@ func _ready():
 	# Store original camera position for screen shake
 	original_camera_position = $Camera2D.position
 	
-	# Connect button signals
-	$TitleScreen/Control/StartButton.pressed.connect(_on_start_button_pressed)
-	$GameOverScreen/Control/VBoxContainer/RestartButton.pressed.connect(_on_restart_button_pressed)
-	$GameOverScreen/Control/VBoxContainer/MainMenuButton.pressed.connect(_on_main_menu_button_pressed)
+	# Connect signals from instanced scenes
+	$TitleScreen.start_game_requested.connect(_on_start_button_pressed)
+	$GameOverScreen.restart_game_requested.connect(_on_restart_button_pressed)
+	$GameOverScreen.main_menu_requested.connect(_on_main_menu_button_pressed)
 	
 	# Test animation system
 	print("Initial positions:")
@@ -201,7 +201,7 @@ func show_game_over_screen():
 	animate_to_title_positions()
 	
 	# Update game over screen with final score
-	$GameOverScreen/Control/VBoxContainer/ScoreLabel.text = "[font_size=60][color=#FEC15D]Final Score:[/color] [color=#FFFFF3]" + str(userScore) + "[/color][/font_size]"
+	$GameOverScreen.update_final_score(userScore)
 	
 	# Clear all popup labels
 	clear_all_popups()
