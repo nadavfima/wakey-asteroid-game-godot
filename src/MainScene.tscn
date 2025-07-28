@@ -56,6 +56,7 @@ shape = SubResource("CircleShape2D_jrltp")
 
 [node name="Player" type="CharacterBody2D" parent="Area2D"]
 position = Vector2(-1, -402)
+scale = Vector2(1.5, 1.5)
 script = ExtResource("2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D/Player"]
@@ -121,27 +122,6 @@ vertical_alignment = 1
 [node name="Rocket" type="Sprite2D" parent="TitleScreen/Control/VBoxContainer"]
 position = Vector2(82, 126)
 texture = ExtResource("8_tlhjj")
-
-[node name="InstructionsLabel" type="Label" parent="TitleScreen/Control"]
-custom_minimum_size = Vector2(0, 80)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -367.0
-offset_top = 106.0
-offset_right = 333.0
-offset_bottom = 186.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_fonts/font = ExtResource("8")
-theme_override_font_sizes/font_size = 24
-text = "Move the moon to destroy asteroids!
-Avoid letting 3 asteroids pass by."
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="StartButton" type="Button" parent="TitleScreen/Control"]
 layout_mode = 1

@@ -36,7 +36,9 @@ var original_camera_position: Vector2
 var is_shaking = false
 
 # Position constants
-const MOON_TITLE_Y = -400
+const MOON_TITLE_SCALE = 1.5
+const MOON_GAME_SCALE = 1.0
+const MOON_TITLE_Y = -300
 const MOON_GAME_Y = -100
 const EARTH_TITLE_Y = 200
 const EARTH_GAME_Y = 400 
@@ -231,7 +233,10 @@ func animate_to_game_positions():
 	moon_tween.set_ease(Tween.EASE_OUT)
 	moon_tween.set_trans(Tween.TRANS_CUBIC)
 	print("Animating moon from Y=", $Area2D/Player.position.y, " to Y=", MOON_GAME_Y)
-	moon_tween.tween_property($Area2D/Player, "position:y", MOON_GAME_Y, ANIMATION_DURATION)
+	
+	# Use parallel() to make position and scale animations happen together
+	moon_tween.parallel().tween_property($Area2D/Player, "position:y", MOON_GAME_Y, ANIMATION_DURATION)
+	moon_tween.parallel().tween_property($Area2D/Player, "scale", Vector2(MOON_GAME_SCALE, MOON_GAME_SCALE), ANIMATION_DURATION)
 	
 	earth_tween = create_tween()
 	earth_tween.set_ease(Tween.EASE_OUT)
@@ -261,7 +266,10 @@ func animate_to_title_positions():
 	moon_tween.set_ease(Tween.EASE_OUT)
 	moon_tween.set_trans(Tween.TRANS_CUBIC)
 	print("Animating moon from Y=", $Area2D/Player.position.y, " to Y=", MOON_TITLE_Y)
-	moon_tween.tween_property($Area2D/Player, "position:y", MOON_TITLE_Y, ANIMATION_DURATION)
+	
+	# Use parallel() to make position and scale animations happen together
+	moon_tween.parallel().tween_property($Area2D/Player, "position:y", MOON_TITLE_Y, ANIMATION_DURATION)
+	moon_tween.parallel().tween_property($Area2D/Player, "scale", Vector2(MOON_TITLE_SCALE, MOON_TITLE_SCALE), ANIMATION_DURATION)
 	
 	earth_tween = create_tween()
 	earth_tween.set_ease(Tween.EASE_OUT)
@@ -486,10 +494,6 @@ func _onAsteroidExitScreen(asteroid):
 	
 	# Don't remove asteroids that have already hit Earth (they'll be removed separately)
 	if asteroid.hitEarth:
-		return
-	
-	# Don't remove asteroids that were hit by moon or other asteroids (they'll be removed by flash sequence)
-	if asteroid.hitByMoon:
 		return
 	
 	# Remove asteroids that exit screen and weren't hit by anything
