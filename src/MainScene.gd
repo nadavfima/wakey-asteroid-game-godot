@@ -125,6 +125,7 @@ func show_title_screen():
 	
 	# Ensure stars are stopped
 	$Stars.end_game()
+	$GameUI.end_game()
 	
 	# Reset moon's x position to center
 	$Area2D/Player.reset_position()
@@ -174,7 +175,7 @@ func start_game():
 	$Stars.start_game()
 	
 	# Start the years counter
-	$GameUI/EpochLabel.start_counting()
+	$GameUI.start_game()
 	
 	# Animate moon and earth to game positions
 	animate_to_game_positions()
@@ -193,6 +194,7 @@ func show_game_over_screen():
 	
 	# Start star deceleration
 	$Stars.end_game()
+	$GameUI.end_game()
 	
 	# Reset moon's x position to center
 	$Area2D/Player.reset_position()
@@ -400,8 +402,8 @@ func _onAsteroidHitByMoon(asteroid):
 	print("Moon hit! Score updated to: ", userScore)
 	
 	# Notify the UserScoreLabel directly about the score change
-	if $GameUI/UserScoreLabel:
-		$GameUI/UserScoreLabel.on_score_changed(5)
+	if $GameUI.get_user_score_label():
+		$GameUI.get_user_score_label().on_score_changed(5)
 	
 	# Add screen shake for moon collision
 	_add_screen_shake(5.0, 0.2)
@@ -426,8 +428,8 @@ func _onAsteroidHitByAsteroid(asteroid):
 	userScore += 8  # Increased from 5 to 8
 	
 	# Notify the UserScoreLabel directly about the score change
-	if $GameUI/UserScoreLabel:
-		$GameUI/UserScoreLabel.on_score_changed(8)
+	if $GameUI.get_user_score_label():
+		$GameUI.get_user_score_label().on_score_changed(8)
 	
 	# Get the asteroid ID from the parent node
 	var asteroid_node = asteroid.get_parent()
@@ -505,8 +507,8 @@ func _onAsteroidCrazySpin(asteroid, points):
 	userScore += points
 	
 	# Notify the UserScoreLabel directly about the score change
-	if $GameUI/UserScoreLabel:
-		$GameUI/UserScoreLabel.on_score_changed(points)
+	if $GameUI.get_user_score_label():
+		$GameUI.get_user_score_label().on_score_changed(points)
 	
 	# Get the asteroid ID from the parent node
 	var asteroid_node = asteroid.get_parent()
@@ -569,8 +571,8 @@ func removeAsteroid(asteroid, hit):
 		print("Asteroid destroyed! Bonus points: ", bonus_points, " Score updated to: ", userScore)
 		
 		# Notify the UserScoreLabel directly about the score change
-		if $GameUI/UserScoreLabel:
-			$GameUI/UserScoreLabel.on_score_changed(bonus_points)
+		if $GameUI.get_user_score_label():
+			$GameUI.get_user_score_label().on_score_changed(bonus_points)
 		
 		# Don't Show popup for destruction bonus
 		# var asteroid_id = asteroid.asteroid_id

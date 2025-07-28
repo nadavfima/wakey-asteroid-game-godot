@@ -19,6 +19,10 @@ func _ready():
 func start_counting():
 	start_time = Time.get_unix_time_from_system()
 
+func stop_counting():
+	# Reset to default display
+	start_time = 0.0
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	var main_scene = get_parent().get_parent()

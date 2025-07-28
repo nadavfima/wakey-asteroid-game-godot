@@ -1,16 +1,14 @@
-[gd_scene load_steps=15 format=3 uid="uid://bwd2fsx7s2ugo"]
+[gd_scene load_steps=13 format=3 uid="uid://bwd2fsx7s2ugo"]
 
 [ext_resource type="AudioStream" uid="uid://brfnjljeumqka" path="res://assets/Space Rubble.wav" id="1"]
 [ext_resource type="Script" uid="uid://bhsdbd02msp2j" path="res://src/Player.gd" id="2"]
 [ext_resource type="Script" uid="uid://c0r0mcd7spnoc" path="res://src/Stars.gd" id="3"]
 [ext_resource type="Texture2D" uid="uid://dmrrjegxr1epe" path="res://assets/earth.png" id="3_3ja64"]
-[ext_resource type="Script" uid="uid://8jug2fw5gcqf" path="res://src/UserScoreLabel.gd" id="4"]
 [ext_resource type="Texture2D" uid="uid://cnws6jvg7a7bk" path="res://assets/moon.png" id="5"]
-[ext_resource type="Script" uid="uid://bjjhjfwvl7vef" path="res://src/ExtinctionsLabel.gd" id="6"]
 [ext_resource type="Script" uid="uid://cgsls6iuhmvec" path="res://src/MainScene.gd" id="7"]
-[ext_resource type="Script" uid="uid://dctvip0hgudr2" path="res://src/EpochLabel.gd" id="11"]
 [ext_resource type="PackedScene" path="res://src/TitleScreen.tscn" id="12"]
 [ext_resource type="PackedScene" path="res://src/GameOverScreen.tscn" id="13"]
+[ext_resource type="PackedScene" path="res://src/GameUI.tscn" id="14"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(820, 1224)
@@ -68,56 +66,7 @@ stream = ExtResource("1")
 [node name="TitleScreen" parent="." instance=ExtResource("12")]
 visible = false
 
-[node name="GameUI" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="UserScoreLabel" type="RichTextLabel" parent="GameUI"]
-layout_mode = 0
-offset_left = 300.0
-offset_top = 30.0
-offset_right = 500.0
-offset_bottom = 250.0
-bbcode_enabled = true
-text = "
-Score
-0
-"
-scroll_active = false
-script = ExtResource("4")
-
-[node name="ExtinctionsLabel" type="RichTextLabel" parent="GameUI"]
-layout_mode = 0
-offset_left = 50.0
-offset_top = 30.0
-offset_right = 250.0
-offset_bottom = 180.0
-bbcode_enabled = true
-text = "
-Extinctions
-Left
-3
-"
-scroll_active = false
-script = ExtResource("6")
-
-[node name="EpochLabel" type="RichTextLabel" parent="GameUI"]
-layout_mode = 0
-offset_left = 550.0
-offset_top = 30.0
-offset_right = 750.0
-offset_bottom = 180.0
-bbcode_enabled = true
-text = "
-Epoch
-13.8B
-"
-scroll_active = false
-script = ExtResource("11")
+[node name="GameUI" parent="." instance=ExtResource("14")]
 
 [node name="GameOverScreen" parent="." instance=ExtResource("13")]
 
