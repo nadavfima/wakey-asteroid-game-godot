@@ -478,7 +478,6 @@ func _onAsteroidHitEarth(asteroid):
 	pass
 	
 func _onAsteroidExitScreen(asteroid):
-	print("exit screen")
 	
 	# Check if asteroid is still valid before accessing its properties
 	if not is_instance_valid(asteroid):
