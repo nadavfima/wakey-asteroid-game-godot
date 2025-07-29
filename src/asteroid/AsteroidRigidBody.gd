@@ -26,11 +26,21 @@ func _init():
 	var selected_range = PhysicsConfig.RANGE_MODERATE
 	linear_velocity = Vector2(0.0, randf_range(selected_range[0], selected_range[1]))
 	
-	# Set random mass for more realistic physics
-	asteroid_mass = randf_range(1.0 - PhysicsConfig.ASTEROID_MASS_VARIANCE, 1.0 + PhysicsConfig.ASTEROID_MASS_VARIANCE)
-	mass = asteroid_mass
+	# Mass will be set in _ready() after the parent node is available
 
 func _ready():
+	# Set mass based on parent node's mass category
+	var parent_node = get_parent()
+	if parent_node and parent_node.has_method("get_mass"):
+		asteroid_mass = parent_node.get_mass()
+		mass = asteroid_mass
+		print("Asteroid mass set to: ", asteroid_mass, " (category: ", parent_node.mass_category, ")")
+	else:
+		# Fallback to default mass if parent doesn't have mass configuration
+		asteroid_mass = 1.0
+		mass = asteroid_mass
+		print("Asteroid using default mass: ", asteroid_mass)
+	
 	# Connect collision signals
 	body_entered.connect(_on_body_entered)
 
