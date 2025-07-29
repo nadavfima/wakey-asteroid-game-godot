@@ -6,9 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://dmrrjegxr1epe" path="res://assets/earth.png" id="3_3ja64"]
 [ext_resource type="Texture2D" uid="uid://cnws6jvg7a7bk" path="res://assets/moon.png" id="5"]
 [ext_resource type="Script" uid="uid://cgsls6iuhmvec" path="res://src/MainScene.gd" id="7"]
-[ext_resource type="PackedScene" path="res://src/TitleScreen.tscn" id="12"]
-[ext_resource type="PackedScene" path="res://src/GameOverScreen.tscn" id="13"]
-[ext_resource type="PackedScene" path="res://src/GameUI.tscn" id="14"]
+[ext_resource type="PackedScene" uid="uid://bq8x7y203w4v5" path="res://src/TitleScreen.tscn" id="12"]
+[ext_resource type="PackedScene" uid="uid://dax8y706w5v4" path="res://src/GameOverScreen.tscn" id="13"]
+[ext_resource type="PackedScene" uid="uid://e8yay001w2v3" path="res://src/GameUI.tscn" id="14"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(820, 1224)
@@ -69,6 +69,7 @@ visible = false
 [node name="GameUI" parent="." instance=ExtResource("14")]
 
 [node name="GameOverScreen" parent="." instance=ExtResource("13")]
+visible = false
 
 [node name="Background" type="ColorRect" parent="."]
 anchors_preset = 15

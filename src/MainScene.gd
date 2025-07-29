@@ -1,7 +1,10 @@
 extends Node2D
 
-const BPM = 139
-const BARS = 16
+# Global game settings
+const MAX_EXTINCTIONS = 3
+const COMPENSATE_FRAMES = 0
+const COMPENSATE_HZ = 60.0
+const BACKGROUND_COLOR = Color(0.133, 0.039, 0.329)
 
 # Game states
 enum GameState {TITLE, PLAYING, GAME_OVER}
@@ -10,13 +13,12 @@ var current_state = GameState.TITLE
 var ateroidsGenerated = 0
 var lastBeat = 0
 var playing = false
-const COMPENSATE_FRAMES = 0
-const COMPENSATE_HZ = 60.0
-
 var lastAsteroidGeneratedOnSecond = 0
 var userScore = 0
 var massExtinctions = 0
-var maxExtinctions = 3
+
+# Level management
+var level_manager: LevelManager
 
 # Animation tweens
 var moon_tween: Tween = null
@@ -46,20 +48,24 @@ const ANIMATION_DURATION = 1.0
 
 #onready var Asteroid = preload("res://src/asteroid/AsteroidScene.tscn")
 
-const oneAstr = [3,6,9]
-const lowAstr =  [[26, 38], [52, 64], [78, 90], [121, 150], [181, 210]]
-const highAstr = [[13, 25], [39, 51], [65, 77], [91, 120], [151, 180]]
-
 var asteroidGenerator = preload("res://src/asteroid/AsteroidGenerator.gd").AsteroidGenerator.new()
 
-var spaceRubble = { 3 : oneAstr,
-					6 : oneAstr,
-					9 : oneAstr,
-					
-					 }
-
 func _ready():
-	RenderingServer.set_default_clear_color(Color(0.133, 0.039, 0.329))
+	# Initialize level manager
+	level_manager = LevelManager.new()
+	add_child(level_manager)
+	
+	# Set background color from global settings
+	RenderingServer.set_default_clear_color(BACKGROUND_COLOR)
+	
+	# Debug output to verify level loading
+	var current_level = level_manager.get_current_level()
+	print("Level system initialized:")
+	print("  Level name: ", current_level.level_name)
+	print("  BPM: ", current_level.bpm)
+	print("  Music track: ", current_level.music_track.get_path() if current_level.music_track else "None")
+	print("  Max extinctions: ", MAX_EXTINCTIONS)
+	print("  Level duration: ", level_manager.get_level_duration(), " seconds")
 	
 	# Store original camera position for screen shake
 	original_camera_position = $Camera2D.position
@@ -86,31 +92,26 @@ func _process(_delta):
 		playing = true
 		return
 	
+	var current_level = level_manager.get_current_level()
 	var time = $AudioPlayer.get_playback_position() + AudioServer.get_time_since_last_mix() - AudioServer.get_output_latency() + (1 / COMPENSATE_HZ) * COMPENSATE_FRAMES
 	
 	
-	var beat = int(time * BPM / 60.0)
+	var beat = int(time * current_level.bpm / 60.0)
 	var seconds = int(time)
 	var seconds_total = int($AudioPlayer.stream.get_length())
 	
 	var minutesPlayed = seconds / 60
 	var secondsPlayed = seconds % 60
 	if (beat != lastBeat):
-		#print(str("BEAT: ", beat % BARS + 1, "/", BARS, " TIME: ", minutesPlayed, ":", secondsPlayed, " / ", seconds_total / 60, ":", strsec(seconds_total % 60)))
+		#print(str("BEAT: ", beat % current_level.bars + 1, "/", current_level.bars, " TIME: ", minutesPlayed, ":", secondsPlayed, " / ", seconds_total / 60, ":", strsec(seconds_total % 60)))
 		lastBeat = beat;
 		#only start generating after 13 seconds
 		
-		for n in oneAstr:
-			if (seconds == n):
-				generateAsteroid(seconds, true)
-		
-		for n in lowAstr:
-			if (seconds >= n[0] && seconds <= n[1]):
-				generateAsteroid(seconds, true)
-				
-		for n in highAstr:
-			if (seconds >= n[0] && seconds <= n[1]):
-				generateAsteroid(seconds, false)
+		# Check if we should spawn an asteroid at this second
+		if level_manager.should_spawn_asteroid_at_second(seconds):
+			var is_high_intensity = level_manager.is_high_intensity_spawn(seconds)
+			print("Spawning asteroid at second ", seconds, " (high intensity: ", is_high_intensity, ")")
+			generateAsteroid(seconds, !is_high_intensity)  # enforceSecondsRule is true for low intensity, false for high intensity
 			
 	
 	pass
@@ -150,6 +151,7 @@ func show_title_screen():
 	clear_all_popups()
 
 func start_game():
+	print("Starting game...")
 	current_state = GameState.PLAYING
 	$TitleScreen.visible = false
 	$GameOverScreen.visible = false
@@ -177,12 +179,19 @@ func start_game():
 	# Start the years counter
 	$GameUI.start_game()
 	
+	# Set the music track from the level BEFORE animation
+	var current_level = level_manager.get_current_level()
+	print("Loading level: ", current_level.level_name)
+	print("Music track: ", current_level.music_track.get_path() if current_level.music_track else "None")
+	$AudioPlayer.stream = current_level.music_track
+	
 	# Animate moon and earth to game positions
 	animate_to_game_positions()
 	
-	# Start audio after animation completes
+	# Start audio immediately (don't wait for animation)
 	$AudioPlayer.play()
 	playing = true
+	print("Audio started, playing: ", playing)
 
 func show_game_over_screen():
 	current_state = GameState.GAME_OVER
@@ -193,7 +202,7 @@ func show_game_over_screen():
 	playing = false
 	
 	# Start star deceleration
-	$Stars.end_game()
+	$Area2D/Stars.end_game()
 	$GameUI.end_game()
 	
 	# Reset moon's x position to center
@@ -596,7 +605,7 @@ func removeAsteroid(asteroid, hit):
 	
 
 	# Check for game over condition immediately
-	if massExtinctions >= maxExtinctions:
+	if massExtinctions >= MAX_EXTINCTIONS:
 		show_game_over_screen()
 	
 	pass
@@ -609,6 +618,15 @@ func _on_restart_button_pressed():
 
 func _on_main_menu_button_pressed():
 	show_title_screen()
+
+# Test function to load different levels (for development)
+func test_load_level(level_number: int):
+	if current_state == GameState.TITLE:
+		level_manager.load_level(level_number)
+		var current_level = level_manager.get_current_level()
+		print("Test: Loaded ", current_level.level_name)
+		print("  BPM: ", current_level.bpm)
+		print("  Music track: ", current_level.music_track.get_path() if current_level.music_track else "None")
 
 # Getter methods for the UI labels
 func get_user_score():

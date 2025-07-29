@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Level" load_steps=3 format=3 uid="uid://bqxvxqxqxqxqy"]
+
+[ext_resource type="Script" path="res://src/Level.gd" id="1_0x0x0"]
+[ext_resource type="AudioStreamWAV" uid="uid://bqxvxqxqxqxqz" path="res://assets/Space Rubble.wav" id="2_0x0x0"]
+
+[resource]
+script = ExtResource("1_0x0x0")
+level_name = "Level 2"
+bpm = 150
+bars = 16
+music_track = ExtResource("2_0x0x0")
+single_asteroid_seconds = Array[int]([2, 5, 8, 12])
+low_intensity_periods = Array[Array]([[20, 35], [45, 60], [80, 95], [110, 130], [160, 180]])
+high_intensity_periods = Array[Array]([[10, 19], [36, 44], [61, 79], [96, 109], [131, 159]]) 
