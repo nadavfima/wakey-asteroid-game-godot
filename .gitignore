@@ -9,3 +9,4 @@ export_presets.cfg
 /.idea
 .godot/
 .DS_Store
+.vscode/settings.json

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bwd2fsx7s2ugo"]
+[gd_scene load_steps=14 format=3 uid="uid://bwd2fsx7s2ugo"]
 
 [ext_resource type="AudioStream" uid="uid://brfnjljeumqka" path="res://assets/Space Rubble.wav" id="1"]
 [ext_resource type="Script" uid="uid://bhsdbd02msp2j" path="res://src/Player.gd" id="2"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://bq8x7y203w4v5" path="res://src/TitleScreen.tscn" id="12"]
 [ext_resource type="PackedScene" uid="uid://dax8y706w5v4" path="res://src/GameOverScreen.tscn" id="13"]
 [ext_resource type="PackedScene" uid="uid://e8yay001w2v3" path="res://src/GameUI.tscn" id="14"]
+[ext_resource type="PackedScene" uid="uid://cww6bam5wk7wn" path="res://src/LevelSelectionScreen.tscn" id="15"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(820, 1224)
@@ -69,6 +70,9 @@ visible = false
 [node name="GameUI" parent="." instance=ExtResource("14")]
 
 [node name="GameOverScreen" parent="." instance=ExtResource("13")]
+visible = false
+
+[node name="LevelSelectionScreen" parent="." instance=ExtResource("15")]
 visible = false
 
 [node name="Background" type="ColorRect" parent="."]

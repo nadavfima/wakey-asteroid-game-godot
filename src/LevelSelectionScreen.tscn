@@ -1,0 +1,221 @@
+[gd_scene load_steps=12 format=3 uid="uid://cww6bam5wk7wn"]
+
+[ext_resource type="Script" uid="uid://brqttf0i7kw7l" path="res://src/LevelSelectionScreen.gd" id="1"]
+[ext_resource type="FontFile" uid="uid://cb85epyygo0yg" path="res://assets/Fredoka-Bold.ttf" id="2"]
+[ext_resource type="Texture2D" uid="uid://bsqrblxwbk355" path="res://assets/rocket.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://cbc2y2yptah02" path="res://assets/button.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://da2fb5s0o5b2x" path="res://assets/button_pressed.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://byssli86g57jq" path="res://assets/tiny_button.png" id="6"]
+[ext_resource type="Texture2D" uid="uid://cwpwvho1y8ohn" path="res://assets/tiny_button_pressed.png" id="7"]
+
+[sub_resource type="StyleBoxTexture" id="3"]
+texture = ExtResource("6")
+
+[sub_resource type="StyleBoxTexture" id="4"]
+texture = ExtResource("7")
+
+[sub_resource type="StyleBoxTexture" id="1"]
+texture = ExtResource("4")
+
+[sub_resource type="StyleBoxTexture" id="2"]
+texture = ExtResource("5")
+
+[node name="LevelSelectionScreen" type="CanvasLayer"]
+script = ExtResource("1")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.133333, 0.0392157, 0.329412, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 100.0
+offset_top = 50.0
+offset_right = -100.0
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HeaderContainer" type="HBoxContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Rocket" type="Sprite2D" parent="Control/VBoxContainer/HeaderContainer"]
+position = Vector2(0, 20)
+texture = ExtResource("3")
+
+[node name="TitleLabel" type="RichTextLabel" parent="Control/VBoxContainer/HeaderContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_fonts/normal_font = ExtResource("2")
+bbcode_enabled = true
+text = "[font_size=80][color=#FEC15D]SELECT[/color][/font_size]
+[font_size=100][color=#FFFFF3]LEVEL[/color][/font_size]"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlusIcon" type="Label" parent="Control/VBoxContainer/HeaderContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2")
+theme_override_font_sizes/font_size = 40
+text = "+"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="LevelGrid" type="GridContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 20
+columns = 3
+
+[node name="Level1Button" type="Button" parent="Control/VBoxContainer/LevelGrid"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/hover = SubResource("3")
+theme_override_styles/pressed = SubResource("4")
+theme_override_styles/normal = SubResource("3")
+text = "1"
+
+[node name="Level2Button" type="Button" parent="Control/VBoxContainer/LevelGrid"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/hover = SubResource("3")
+theme_override_styles/pressed = SubResource("4")
+theme_override_styles/normal = SubResource("3")
+text = "2"
+
+[node name="Level3Button" type="Button" parent="Control/VBoxContainer/LevelGrid"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/hover = SubResource("3")
+theme_override_styles/pressed = SubResource("4")
+theme_override_styles/normal = SubResource("3")
+text = "3"
+
+[node name="Level4Button" type="Button" parent="Control/VBoxContainer/LevelGrid"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/hover = SubResource("3")
+theme_override_styles/pressed = SubResource("4")
+theme_override_styles/normal = SubResource("3")
+text = "4"
+
+[node name="Level5Button" type="Button" parent="Control/VBoxContainer/LevelGrid"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/hover = SubResource("3")
+theme_override_styles/pressed = SubResource("4")
+theme_override_styles/normal = SubResource("3")
+text = "5"
+
+[node name="Level6Button" type="Button" parent="Control/VBoxContainer/LevelGrid"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/hover = SubResource("3")
+theme_override_styles/pressed = SubResource("4")
+theme_override_styles/normal = SubResource("3")
+text = "6"
+
+[node name="Level7Button" type="Button" parent="Control/VBoxContainer/LevelGrid"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/hover = SubResource("3")
+theme_override_styles/pressed = SubResource("4")
+theme_override_styles/normal = SubResource("3")
+text = "7"
+
+[node name="Level8Button" type="Button" parent="Control/VBoxContainer/LevelGrid"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/hover = SubResource("3")
+theme_override_styles/pressed = SubResource("4")
+theme_override_styles/normal = SubResource("3")
+text = "8"
+
+[node name="Level9Button" type="Button" parent="Control/VBoxContainer/LevelGrid"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/hover = SubResource("3")
+theme_override_styles/pressed = SubResource("4")
+theme_override_styles/normal = SubResource("3")
+text = "9"
+
+[node name="BackButton" type="Button" parent="Control/VBoxContainer"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2")
+theme_override_font_sizes/font_size = 40
+theme_override_styles/hover = SubResource("1")
+theme_override_styles/pressed = SubResource("2")
+theme_override_styles/normal = SubResource("1")
+text = "BACK"

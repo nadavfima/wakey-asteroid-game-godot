@@ -7,7 +7,7 @@ const COMPENSATE_HZ = 60.0
 const BACKGROUND_COLOR = Color(0.133, 0.039, 0.329)
 
 # Game states
-enum GameState {TITLE, PLAYING, GAME_OVER}
+enum GameState {TITLE, LEVEL_SELECTION, PLAYING, GAME_OVER}
 var current_state = GameState.TITLE
 
 var ateroidsGenerated = 0
@@ -74,6 +74,8 @@ func _ready():
 	$TitleScreen.start_game_requested.connect(_on_start_button_pressed)
 	$GameOverScreen.restart_game_requested.connect(_on_restart_button_pressed)
 	$GameOverScreen.main_menu_requested.connect(_on_main_menu_button_pressed)
+	$LevelSelectionScreen.level_selected.connect(_on_level_selected)
+	$LevelSelectionScreen.back_to_title_requested.connect(_on_back_to_title_requested)
 	
 	# Test animation system
 	print("Initial positions:")
@@ -119,6 +121,7 @@ func _process(_delta):
 func show_title_screen():
 	current_state = GameState.TITLE
 	$TitleScreen.visible = true
+	$LevelSelectionScreen.visible = false
 	$GameOverScreen.visible = false
 	$GameUI.visible = false
 	$AudioPlayer.stop()
@@ -130,6 +133,9 @@ func show_title_screen():
 	
 	# Reset moon's x position to center
 	$Area2D/Player.reset_position()
+	
+	# Show the moon for title screen
+	$Area2D/Player.visible = true
 	
 	# Animate moon and earth back to title positions
 	animate_to_title_positions()
@@ -154,8 +160,12 @@ func start_game():
 	print("Starting game...")
 	current_state = GameState.PLAYING
 	$TitleScreen.visible = false
+	$LevelSelectionScreen.visible = false
 	$GameOverScreen.visible = false
 	$GameUI.visible = true
+	
+	# Show the moon again for gameplay
+	$Area2D/Player.visible = true
 	
 	# Reset game state
 	userScore = 0
@@ -196,6 +206,7 @@ func start_game():
 func show_game_over_screen():
 	current_state = GameState.GAME_OVER
 	$TitleScreen.visible = false
+	$LevelSelectionScreen.visible = false
 	$GameOverScreen.visible = true
 	$GameUI.visible = false
 	$AudioPlayer.stop()
@@ -611,13 +622,62 @@ func removeAsteroid(asteroid, hit):
 	pass
 
 func _on_start_button_pressed():
-	start_game()
+	show_level_selection_screen()
 
 func _on_restart_button_pressed():
-	start_game()
+	show_level_selection_screen()
 
 func _on_main_menu_button_pressed():
 	show_title_screen()
+
+func _on_level_selected(level_number: int):
+	print("Level ", level_number, " selected, starting game...")
+	level_manager.load_level(level_number)
+	start_game()
+
+func _on_back_to_title_requested():
+	show_title_screen()
+
+func show_level_selection_screen():
+	current_state = GameState.LEVEL_SELECTION
+	$TitleScreen.visible = false
+	$LevelSelectionScreen.visible = true
+	$GameOverScreen.visible = false
+	$GameUI.visible = false
+	$AudioPlayer.stop()
+	playing = false
+	
+	# Ensure stars are stopped
+	$Area2D/Stars.end_game()
+	$GameUI.end_game()
+	
+	# Reset moon's x position to center
+	$Area2D/Player.reset_position()
+	
+	# Animate moon and earth back to title positions
+	animate_to_title_positions()
+	
+	# Hide the moon for level selection screen
+	$Area2D/Player.visible = false
+	
+	# Reset game state
+	userScore = 0
+	massExtinctions = 0
+	ateroidsGenerated = 0
+	lastBeat = 0
+	lastAsteroidGeneratedOnSecond = 0
+	
+	# Clear any existing asteroids
+	for child in $Area2D/CollisionShape2D.get_children():
+		if child.has_method("queue_free"):
+			$Area2D/CollisionShape2D.remove_child(child)
+			child.queue_free()
+	
+	# Clear all popup labels
+	clear_all_popups()
+	
+	# Update level selection screen with available levels
+	$LevelSelectionScreen.update_available_levels()
 
 # Test function to load different levels (for development)
 func test_load_level(level_number: int):

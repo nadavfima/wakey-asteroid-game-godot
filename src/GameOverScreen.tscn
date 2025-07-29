@@ -85,7 +85,7 @@ theme_override_font_sizes/font_size = 40
 theme_override_styles/hover = SubResource("1")
 theme_override_styles/pressed = SubResource("2")
 theme_override_styles/normal = SubResource("1")
-text = "PLAY AGAIN"
+text = "SELECT LEVEL"
 
 [node name="MainMenuButton" type="Button" parent="Control/VBoxContainer"]
 custom_minimum_size = Vector2(0, 130)
