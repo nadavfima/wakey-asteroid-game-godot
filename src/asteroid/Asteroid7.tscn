@@ -9,8 +9,8 @@
 bounce = 1.0
 
 [sub_resource type="CapsuleShape2D" id="2"]
-radius = 12.5
-height = 25.0
+radius = 27.0
+height = 116.0
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("3")
@@ -19,8 +19,8 @@ script = ExtResource("3")
 position = Vector2(1, 0)
 physics_material_override = SubResource("1")
 gravity_scale = 0.0
-max_contacts_reported = 3
 contact_monitor = true
+max_contacts_reported = 3
 script = ExtResource("2")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="AsteroidRigidBody"]
@@ -32,8 +32,8 @@ rotation = 1.5708
 shape = SubResource("2")
 
 [node name="Asteroid7" type="Sprite2D" parent="AsteroidRigidBody/CollisionShape2D"]
-position = Vector2(-0.200195, 0.101013)
-rotation = -1.5708
+position = Vector2(0, -1.49012e-08)
+rotation = -1.27409
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1")
 

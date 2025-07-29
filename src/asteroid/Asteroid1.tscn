@@ -9,8 +9,8 @@
 bounce = 1.0
 
 [sub_resource type="CapsuleShape2D" id="2"]
-radius = 9.29935
-height = 18.5987
+radius = 36.0
+height = 114.0
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("3")
@@ -28,12 +28,12 @@ position = Vector2(-1, 0)
 script = ExtResource("4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AsteroidRigidBody"]
+position = Vector2(-11, 24)
 rotation = 1.5708
 shape = SubResource("2")
 
-[node name="Asteroid1" type="Sprite2D" parent="AsteroidRigidBody/CollisionShape2D"]
-position = Vector2(-0.200195, 0.101013)
-rotation = -1.5708
+[node name="Asteroid1" type="Sprite2D" parent="AsteroidRigidBody"]
+position = Vector2(-10, 23)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1")
 

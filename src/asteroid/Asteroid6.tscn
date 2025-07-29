@@ -1,16 +1,16 @@
 [gd_scene load_steps=7 format=3 uid="uid://c3rm4v1o24f8l"]
 
-[ext_resource type="Texture2D" uid="uid://di5appx70dga0" path="res://assets/Asteroids/asteroid_03.png" id="1"]
 [ext_resource type="Script" uid="uid://cujqj4nam18h5" path="res://src/asteroid/AsteroidRigidBody.gd" id="2"]
 [ext_resource type="Script" uid="uid://bme7xftebly4a" path="res://src/asteroid/AsteroidNode.gd" id="3"]
 [ext_resource type="Script" uid="uid://dvoxsrinoe2uc" path="res://src/asteroid/AsteroidNotifier.gd" id="4"]
+[ext_resource type="Texture2D" uid="uid://dp720k2vdwobt" path="res://assets/Asteroids/asteroid_06.png" id="4_kpvg3"]
 
 [sub_resource type="PhysicsMaterial" id="1"]
 bounce = 1.0
 
 [sub_resource type="CapsuleShape2D" id="2"]
-radius = 10.417
-height = 20.834
+radius = 24.5416
+height = 66.8822
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("3")
@@ -28,15 +28,15 @@ position = Vector2(-1, 0)
 script = ExtResource("4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AsteroidRigidBody"]
-position = Vector2(-0.707123, 0)
-rotation = 1.5708
+position = Vector2(-1, 0)
+rotation = 0.785398
 shape = SubResource("2")
 
 [node name="Asteroid6" type="Sprite2D" parent="AsteroidRigidBody/CollisionShape2D"]
 position = Vector2(0.153348, -0.959657)
-rotation = -1.5708
+rotation = 0.785398
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("1")
+texture = ExtResource("4_kpvg3")
 
 [node name="SubViewport" type="SubViewport" parent="."]
 transparent_bg = true

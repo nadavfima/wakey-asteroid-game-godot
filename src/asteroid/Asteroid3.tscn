@@ -9,8 +9,8 @@
 bounce = 1.0
 
 [sub_resource type="CapsuleShape2D" id="2"]
-radius = 14.6484
-height = 29.2968
+radius = 38.0
+height = 120.0
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("3")
